@@ -2,37 +2,37 @@ using UnityEngine;
 
 namespace FluentUI
 {
-	public abstract class Element
+	public abstract class Element : MonoBehaviour
 	{
-		internal GameObject GameObject { get; }
+		public Transform Transform => transform;
 
-		public Transform Transform => GameObject.transform;
+		public virtual Transform Content => transform;
 
-		public Element Parent { get; }
-
-		public virtual Transform Content => GameObject.transform;
-
-		protected Element()
-		{
-			GameObject = new GameObject($"{GetType().Name}");
-		}
-
-		protected Element(Transform parent)
-		{
-			GameObject = new GameObject($"{GetType().Name}");
-			Transform.parent = parent;
-		}
-		
-		protected Element(Element parent)
-		{
-			GameObject = new GameObject($"{GetType().Name}");
-			Parent = parent;
-			Transform.parent = parent.Transform;
-		}
+		protected RectTransform rectTransform => (RectTransform)transform;
 		
 		public Window Window(string title)
 		{
 			return FluentUI.Window.Create(Content, title);
+		}
+
+		protected Element ClampToParent()
+		{
+			var parentRectTransform = transform.parent as RectTransform;
+			if (parentRectTransform == null)
+				return this;
+
+			var localPosition = rectTransform.localPosition;
+			var rect = rectTransform.rect;
+			var parentRect = parentRectTransform.rect;
+			
+			Vector3 minPosition = parentRect.min - rect.min;
+			Vector3 maxPosition = parentRect.max - rect.max;
+ 
+			localPosition.x = Mathf.Clamp(localPosition.x, minPosition.x, maxPosition.x);
+			localPosition.y = Mathf.Clamp(localPosition.y, minPosition.y, maxPosition.y);
+ 
+			rectTransform.localPosition = localPosition;
+			return this;
 		}
 	}
 }

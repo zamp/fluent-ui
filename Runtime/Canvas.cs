@@ -5,21 +5,9 @@ namespace FluentUI
 {
 	public class Canvas : Element
 	{
-		private readonly UnityEngine.Canvas _canvas;
-		private readonly CanvasRenderer _renderer;
-		private readonly GraphicRaycaster _raycaster;
-
-		private Canvas(Transform parent) : base(parent)
-		{
-			_canvas = GameObject.AddComponent<UnityEngine.Canvas>();
-			_renderer = GameObject.AddComponent<CanvasRenderer>();
-			_raycaster = GameObject.AddComponent<GraphicRaycaster>();
-		}
-		
-		internal static Canvas Create(Transform parent)
-		{
-			return new Canvas(parent);
-		}
+		private UnityEngine.Canvas _canvas;
+		private CanvasRenderer _renderer;
+		private GraphicRaycaster _raycaster;
 
 		public Canvas ScreenSpace(Camera camera)
 		{
@@ -40,5 +28,26 @@ namespace FluentUI
 			_canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 			return this;
 		}
+		
+		#region Creation
+		
+		internal static Canvas Create(Transform parent)
+		{
+			var gameObject = new GameObject($"{nameof(Canvas)}");
+			gameObject.transform.parent = parent;
+
+			var window = gameObject.AddComponent<Canvas>();
+			window.CreateUnityComponents();
+			return window;
+		}
+
+		private void CreateUnityComponents()
+		{
+			_canvas = gameObject.AddComponent<UnityEngine.Canvas>();
+			_renderer = gameObject.AddComponent<CanvasRenderer>();
+			_raycaster = gameObject.AddComponent<GraphicRaycaster>();
+		}
+
+		#endregion Creation
 	}
 }
