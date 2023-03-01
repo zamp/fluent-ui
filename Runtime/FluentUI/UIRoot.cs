@@ -1,13 +1,15 @@
 using System;
+using FluentUI.Elements;
 using UnityEngine;
+using Canvas = FluentUI.Elements.Canvas;
 
 namespace FluentUI
 {
     public class UIRoot : MonoBehaviour
     {
-        [SerializeField] private Skin _skin;
+        [SerializeField] private UISkin _skin;
 
-        public static Skin Skin => _instance._skin;
+        public static UISkin Skin => _instance._skin;
         
         private static UIRoot _instance;
 
@@ -24,7 +26,7 @@ namespace FluentUI
 
         public static Canvas Canvas()
         {
-            return FluentUI.Canvas.Create(Instance.transform);
+            return Elements.Canvas.Create(Instance.transform);
         }
     }
 }

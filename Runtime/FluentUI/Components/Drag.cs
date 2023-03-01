@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace FluentUI
+namespace FluentUI.Components
 {
-	public class DragElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+	public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
 		public float DragThreshold = 0;
 

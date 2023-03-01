@@ -1,10 +1,10 @@
 using System;
+using FluentUI.Components;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
-namespace FluentUI
+namespace FluentUI.Elements
 {
 	public enum WindowCenter
 	{
@@ -12,7 +12,7 @@ namespace FluentUI
 		RememberPosition
 	}
 	
-	public class Window : Element
+	public class Window : Element<Window>
 	{
 		private GameObject _titleBar;
 		private GameObject _closeButton;
@@ -54,42 +54,12 @@ namespace FluentUI
 				
 			return this;
 		}
-
-		public Window Size(Vector2 size)
-		{
-			rectTransform.sizeDelta = size;
-			return this;
-		}
-		
-		public Window Center()
-		{
-			rectTransform.pivot = Vector2.one / 2f;
-			rectTransform.anchorMax = rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-			rectTransform.anchoredPosition = Vector2.zero;
-			return this;
-		}
-		
-		public Window RestorePosition()
-		{
-			rectTransform.anchoredPosition = Vector2.zero;
-			return this;
-		}
-		
-		public Window Fill()
-		{
-			rectTransform.pivot = Vector2.one / 2f;
-			rectTransform.anchorMin = Vector2.zero;
-			rectTransform.anchorMax = Vector2.one;
-			rectTransform.anchoredPosition = Vector2.zero;
-			rectTransform.sizeDelta = Vector2.zero;
-			return this;
-		}
 		
 		#region Creation
 		
 		public static Window Create(Transform parent, string title)
 		{
-			var gameObject = new GameObject($"{nameof(FluentUI.Window)}_{title}");
+			var gameObject = new GameObject($"{nameof(Elements.Window)}_{title}");
 			gameObject.transform.parent = parent;
 
 			var window = gameObject.AddComponent<Window>();
@@ -130,7 +100,7 @@ namespace FluentUI
 			layoutElement.preferredHeight = UIRoot.Skin.WindowTitleBarHeight;
 			layoutElement.minHeight = UIRoot.Skin.WindowTitleBarHeight;
 
-			obj.AddComponent<DragElement>().OnDrag += OnDrag;
+			obj.AddComponent<Drag>().OnDrag += OnDrag;
 
 			return obj;
 		}
@@ -147,8 +117,8 @@ namespace FluentUI
 			obj.transform.parent = container.transform;
 
 			var textMesh = obj.AddComponent<TextMeshProUGUI>();
-			textMesh.font = UIRoot.Skin.WindowTitleFont;
-			textMesh.fontSize = UIRoot.Skin.WindowTitleFontSize;
+			textMesh.font = UIRoot.Skin.Font;
+			textMesh.fontSize = UIRoot.Skin.FontSize;
 			textMesh.text = text;
 			textMesh.overflowMode = TextOverflowModes.Ellipsis;
 			textMesh.alignment = TextAlignmentOptions.Center;
@@ -169,7 +139,7 @@ namespace FluentUI
 			image.sprite = UIRoot.Skin.WindowCloseButtonSprite;
 			image.color = UIRoot.Skin.WindowCloseButtonColor;
 
-			obj.AddComponent<Button>().onClick.AddListener(() => Close());
+			obj.AddComponent<UnityEngine.UI.Button>().onClick.AddListener(() => Close());
 
 			var layoutElement = obj.AddComponent<LayoutElement>();
 			layoutElement.minWidth = layoutElement.preferredWidth = UIRoot.Skin.WindowCloseButtonSize.x;

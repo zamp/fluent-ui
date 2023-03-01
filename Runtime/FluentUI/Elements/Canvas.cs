@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FluentUI
+namespace FluentUI.Elements
 {
-	public class Canvas : Element
+	public class Canvas : Element<Canvas>
 	{
 		private UnityEngine.Canvas _canvas;
 		private CanvasRenderer _renderer;
