@@ -22,7 +22,7 @@ namespace FluentUI.Elements
 		private event Action _onClosed;
 		private event Action _onOpened;
 
-		public override Transform Content => _content.transform;
+		protected override Transform Content => _content.transform;
 
 		public Window Close()
 		{

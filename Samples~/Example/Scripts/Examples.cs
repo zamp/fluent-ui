@@ -11,6 +11,7 @@ namespace FluentUIExamples
 		
 		private readonly UIBinding<string> _labelBinding = new();
 		private readonly UIBinding<Sprite> _imageBinding = new();
+		private readonly UIBinding<int> _dropdownSelection = new();
 		
 		private Window _windowReference;
 
@@ -35,7 +36,10 @@ namespace FluentUIExamples
 										.Size(new Vector2(20,20))
 										.OnClick(() => _windowReference.Open())
 										.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
-									y => y.Label(_labelBinding)
+									y => y.Label(_labelBinding),
+									y => y.Dropdown("Dropdown:", _dropdownSelection, new []{"First example", "Second example", "Third example"})
+										.Size(20,20)
+										.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}"))
 								),
 						x => x.Window("Draggable window")
 							.Position(400,400)

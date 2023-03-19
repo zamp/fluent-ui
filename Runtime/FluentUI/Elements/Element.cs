@@ -12,9 +12,9 @@ namespace FluentUI.Elements
 	public abstract class Element<T> : Element where T : Element
 	{
 		private LayoutElement _layoutElement;
-		public Transform Transform => transform;
+		protected Transform Transform => transform;
 
-		public virtual Transform Content => transform;
+		protected virtual Transform Content => transform;
 
 		protected RectTransform rectTransform => (RectTransform)transform;
 
@@ -38,7 +38,7 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public T Size(int width, int height)
+		public virtual T Size(int width, int height)
 		{
 			return Size(new Vector2(width, height));
 		}
@@ -78,6 +78,18 @@ namespace FluentUI.Elements
 			rectTransform.anchoredPosition = Vector2.zero;
 			return this as T;
 		}
+
+		public T SetParent(Transform parent)
+		{
+			rectTransform.SetParent(parent, false);
+			return this as T;
+		}
+		
+		public T SetParent(Element parent)
+		{
+			rectTransform.SetParent(parent.transform, false);
+			return this as T;
+		}
 		
 		public T Fill()
 		{
@@ -92,6 +104,20 @@ namespace FluentUI.Elements
 		public T Out(out T value)
 		{
 			value = this as T;
+			return this as T;
+		}
+
+		public T FlexibleWidth(float width)
+		{
+			var layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
+			layoutElement.flexibleWidth = width;
+			return this as T;
+		}
+		
+		public T FlexibleHeight(float height)
+		{
+			var layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
+			layoutElement.flexibleHeight = height;
 			return this as T;
 		}
 		
@@ -113,6 +139,11 @@ namespace FluentUI.Elements
 		public Label Label(UIBinding<string> binding)
 		{
 			return Elements.Label.Create(Content, binding);
+		}
+		
+		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
+		{
+			return Elements.Dropdown.Create(Content, label, selection, values);
 		}
 		
 		public VerticalGroup VerticalGroup()

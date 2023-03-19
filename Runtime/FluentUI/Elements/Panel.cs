@@ -10,7 +10,7 @@ namespace FluentUI.Elements
 	{
 		private GameObject _content;
 
-		public override Transform Content => _content.transform;
+		protected override Transform Content => _content.transform;
 		
 		#region Creation
 		

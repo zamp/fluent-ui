@@ -17,9 +17,15 @@ namespace FluentUI.Elements
 	{
 		protected LayoutGroup _layoutGroup;
 		
-		public void Padding(RectOffset padding)
+		public Group Padding(RectOffset padding)
 		{
 			_layoutGroup.padding = padding;
+			return this;
+		}
+		
+		public Group Padding(int left, int right, int top, int bottom)
+		{
+			return Padding(new RectOffset(left, right, top, bottom));
 		}
 	}
 }

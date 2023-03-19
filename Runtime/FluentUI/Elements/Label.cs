@@ -13,6 +13,12 @@ namespace FluentUI.Elements
 			return this;
 		}
 
+		public Label SetText(string text)
+		{
+			_text.text = text;
+			return this;
+		}
+
 		#region Creation
 		
 		public static Label Create(Transform parent, UIBinding<string> binding)
