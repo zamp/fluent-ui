@@ -31,5 +31,9 @@ namespace FluentUI
 		[Header("Layout Groups")]
 		public RectOffset LayoutGroupPadding;
 		public float LayoutGroupSpacing;
+
+		[Header("Panel")]
+		public Sprite PanelSprite;
+		public Color PanelColor;
 	}
 }

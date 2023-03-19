@@ -31,6 +31,13 @@ namespace FluentUI.Elements
 			return this;
 		}
 
+		public Window Open()
+		{
+			gameObject.SetActive(true);
+			_onOpened?.Invoke();
+			return this;
+		}
+
 		public Window OnClosed(Action callback)
 		{
 			_onClosed += callback;
@@ -51,7 +58,7 @@ namespace FluentUI.Elements
 			{
 				callback?.Invoke();
 			}
-				
+			
 			return this;
 		}
 		
@@ -92,7 +99,7 @@ namespace FluentUI.Elements
 			layoutGroup.childForceExpandHeight = false;
 			layoutGroup.padding = UIRoot.Skin.WindowTitleBarPadding; 
 
-			var image = obj.AddComponent<Image>();
+			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.WindowTitleBarSprite;
 			image.color = UIRoot.Skin.WindowTitleBarColor;
 			
@@ -135,7 +142,7 @@ namespace FluentUI.Elements
 			var obj = new GameObject("CloseButton");
 			obj.transform.parent = container.transform;
 
-			var image = obj.AddComponent<Image>();
+			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.WindowCloseButtonSprite;
 			image.color = UIRoot.Skin.WindowCloseButtonColor;
 
@@ -153,7 +160,7 @@ namespace FluentUI.Elements
 			var obj = new GameObject("Content");
 			obj.transform.parent = Transform;
 
-			var image = obj.AddComponent<Image>();
+			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.WindowContentSprite;
 			image.color = UIRoot.Skin.WindowContentColor;
 				

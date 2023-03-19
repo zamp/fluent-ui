@@ -15,17 +15,28 @@ MonoBehaviour:
   WindowTitleBarSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a,
     type: 3}
   WindowTitleBarHeight: 20
-  WindowTitleBarColor: {r: 0.16642931, g: 0.18319592, b: 0.18867922, a: 1}
+  WindowTitleBarColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   WindowTitleBarPadding:
     m_Left: 2
     m_Right: 2
     m_Top: 2
     m_Bottom: 2
-  WindowContentSprite: {fileID: 0}
-  WindowContentColor: {r: 0.09349413, g: 0.102060355, b: 0.103773594, a: 1}
+  WindowContentSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a,
+    type: 3}
+  WindowContentColor: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   WindowCloseButtonSprite: {fileID: 21300000, guid: 2f5df8936d318a14c8f179c27f9136c6,
     type: 3}
   WindowCloseButtonColor: {r: 1, g: 1, b: 1, a: 1}
   WindowCloseButtonSize: {x: 16, y: 16}
-  WindowTitleFont: {fileID: 11400000, guid: c56d84af888a6304a8ec8fbfbab9c6ac, type: 2}
-  WindowTitleFontSize: 13
+  ButtonSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
+  ButtonColor: {r: 0.3068263, g: 0.32629496, b: 0.3301887, a: 1}
+  Font: {fileID: 0}
+  FontSize: 13
+  LayoutGroupPadding:
+    m_Left: 2
+    m_Right: 2
+    m_Top: 2
+    m_Bottom: 2
+  LayoutGroupSpacing: 2
+  PanelSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
+  PanelColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}

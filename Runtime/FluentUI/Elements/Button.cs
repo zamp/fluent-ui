@@ -31,7 +31,7 @@ namespace FluentUI.Elements
 			var button = gameObject.AddComponent<UnityEngine.UI.Button>();
 			button.onClick.AddListener(() => _onClick?.Invoke());
 
-			var image = gameObject.AddComponent<Image>();
+			var image = gameObject.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.ButtonSprite;
 			image.color = UIRoot.Skin.ButtonColor;
 		}

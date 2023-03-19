@@ -15,5 +15,12 @@
   },
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Example",
+      "description": "Contains example code for fluent ui",
+      "path": "Samples~/Example"
+    }
+  ]
 }

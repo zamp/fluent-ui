@@ -1,3 +1,4 @@
+using System;
 using FluentUI.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +38,11 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
+		public T Size(int width, int height)
+		{
+			return Size(new Vector2(width, height));
+		}
+		
 		public T Size(Vector2 size)
 		{
 			rectTransform.sizeDelta = size;
@@ -51,6 +57,19 @@ namespace FluentUI.Elements
 			rectTransform.pivot = Vector2.one / 2f;
 			rectTransform.anchorMax = rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
 			rectTransform.anchoredPosition = Vector2.zero;
+			return this as T;
+		}
+		
+		public T Position(int x, int y)
+		{
+			return Position(new Vector2(x, y));
+		}
+
+		public T Position(Vector2 position)
+		{
+			rectTransform.pivot = Vector2.zero;
+			rectTransform.anchorMax = rectTransform.anchorMin = new Vector2(0f, 0f);
+			rectTransform.anchoredPosition = position;
 			return this as T;
 		}
 		
@@ -69,6 +88,12 @@ namespace FluentUI.Elements
 			rectTransform.sizeDelta = Vector2.zero;
 			return this as T;
 		}
+
+		public T Out(out T value)
+		{
+			value = this as T;
+			return this as T;
+		}
 		
 		public Window Window(string title)
 		{
@@ -85,6 +110,11 @@ namespace FluentUI.Elements
 			return Elements.Label.Create(Content, text);
 		}
 		
+		public Label Label(UIBinding<string> binding)
+		{
+			return Elements.Label.Create(Content, binding);
+		}
+		
 		public VerticalGroup VerticalGroup()
 		{
 			return Elements.VerticalGroup.Create(Content);
@@ -93,6 +123,29 @@ namespace FluentUI.Elements
 		public HorizontalGroup HorizontalGroup()
 		{
 			return Elements.HorizontalGroup.Create(Content);
+		}
+		
+		public Panel Panel()
+		{
+			return Elements.Panel.Create(Content);
+		}
+		
+		public Image Image(Sprite sprite)
+		{
+			return Elements.Image.Create(Content, sprite);
+		}
+		
+		public Image Image(UIBinding<Sprite> binding)
+		{
+			return Elements.Image.Create(Content, binding);
+		}
+		
+		public void Children(params Action<Element<T>>[] actions)
+		{
+			foreach (var action in actions)
+			{
+				action?.Invoke(this);
+			}
 		}
 	}
 }
