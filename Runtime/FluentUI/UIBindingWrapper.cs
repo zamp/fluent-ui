@@ -8,8 +8,8 @@ namespace FluentUI
 	
 	public class UIBindingWrapper<T> : UIBindingWrapper
 	{
-		private UIBinding<T> _binding;
-		private Action<T> _onValueChanged;
+		private readonly UIBinding<T> _binding;
+		private readonly Action<T> _onValueChanged;
 
 		public UIBindingWrapper(UIBinding<T> binding, Action<T> onValueChanged)
 		{

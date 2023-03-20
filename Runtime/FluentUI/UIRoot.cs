@@ -1,5 +1,4 @@
 using System;
-using FluentUI.Elements;
 using UnityEngine;
 using Canvas = FluentUI.Elements.Canvas;
 

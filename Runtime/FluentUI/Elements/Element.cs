@@ -3,6 +3,7 @@ using FluentUI.Components;
 using FluentUI.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace FluentUI.Elements
 {
@@ -95,6 +96,7 @@ namespace FluentUI.Elements
 		{
 			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
 			_layoutElement.preferredWidth = width;
+			rectTransform.sizeDelta = new Vector2(width, rectTransform.sizeDelta.y);
 			return this as T;
 		}
 		
@@ -102,6 +104,7 @@ namespace FluentUI.Elements
 		{
 			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
 			_layoutElement.preferredHeight = height;
+			rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, height);
 			return this as T;
 		}
 		
@@ -264,6 +267,11 @@ namespace FluentUI.Elements
 			{
 				action?.Invoke(this);
 			}
+		}
+
+		public void DestroySelf()
+		{
+			DestroyImmediate(gameObject);
 		}
 		
 		#endregion
