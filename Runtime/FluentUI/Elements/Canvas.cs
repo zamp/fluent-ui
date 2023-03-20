@@ -28,6 +28,13 @@ namespace FluentUI.Elements
 			_canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 			return this;
 		}
+
+		public Canvas OverrideSortingOrder(int sortingOrder)
+		{
+			_canvas.overrideSorting = true;
+			_canvas.sortingOrder = sortingOrder;
+			return this;
+		}
 		
 		#region Creation
 		
@@ -36,16 +43,23 @@ namespace FluentUI.Elements
 			var gameObject = new GameObject($"{nameof(Canvas)}");
 			gameObject.transform.parent = parent;
 
-			var window = gameObject.AddComponent<Canvas>();
-			window.CreateUnityComponents();
-			return window;
+			var canvas = gameObject.AddComponent<Canvas>();
+			canvas._canvas = gameObject.AddComponent<UnityEngine.Canvas>();
+			canvas._renderer = gameObject.AddComponent<CanvasRenderer>();
+			canvas._raycaster = gameObject.AddComponent<GraphicRaycaster>();
+			return canvas;
 		}
-
-		private void CreateUnityComponents()
+		
+		internal static Canvas CreateOverlay(Transform parent, int sortingOrder)
 		{
-			_canvas = gameObject.AddComponent<UnityEngine.Canvas>();
-			_renderer = gameObject.AddComponent<CanvasRenderer>();
-			_raycaster = gameObject.AddComponent<GraphicRaycaster>();
+			var gameObject = new GameObject($"{nameof(Canvas)}");
+			gameObject.transform.parent = parent;
+
+			var canvas = gameObject.AddComponent<Canvas>();
+			canvas._canvas = gameObject.AddComponent<UnityEngine.Canvas>();
+			canvas._raycaster = gameObject.AddComponent<GraphicRaycaster>();
+			canvas.OverrideSortingOrder(sortingOrder);
+			return canvas;
 		}
 
 		#endregion Creation

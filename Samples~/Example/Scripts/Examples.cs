@@ -11,7 +11,8 @@ namespace FluentUIExamples
 		
 		private readonly UIBinding<string> _labelBinding = new();
 		private readonly UIBinding<Sprite> _imageBinding = new();
-		private readonly UIBinding<int> _dropdownSelection = new();
+		private readonly UIBinding<int> _dropdownSelectionBinding = new();
+		private readonly UIBinding<bool> _toggleBinding = new();
 		
 		private Window _windowReference;
 
@@ -33,13 +34,15 @@ namespace FluentUIExamples
 								.Children(
 									y => y.Label("This is a label"),
 									y => y.Button()
-										.Size(new Vector2(20,20))
+										.PreferredHeight(20)
 										.OnClick(() => _windowReference.Open())
 										.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
 									y => y.Label(_labelBinding),
-									y => y.Dropdown("Dropdown:", _dropdownSelection, new []{"First example", "Second example", "Third example"})
-										.Size(20,20)
-										.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}"))
+									y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
+										.PreferredHeight(20)
+										.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
+									y => y.Toggle("Toggle:", _toggleBinding)
+										.PreferredHeight(20)
 								),
 						x => x.Window("Draggable window")
 							.Position(400,400)

@@ -7,6 +7,8 @@ namespace FluentUI
 {
     public class UIRoot : MonoBehaviour
     {
+        public const int OVERLAY_SORTING_ORDER = 100;
+        
         [SerializeField] private UISkin _skin;
 
         public static UISkin Skin => _instance._skin;

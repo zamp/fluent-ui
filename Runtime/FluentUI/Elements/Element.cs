@@ -1,4 +1,5 @@
 using System;
+using FluentUI.Components;
 using FluentUI.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace FluentUI.Elements
 
 		protected virtual Transform Content => transform;
 
-		protected RectTransform rectTransform => (RectTransform)transform;
+		public RectTransform rectTransform => (RectTransform)transform;
 
 		protected T ClampToParent()
 		{
@@ -38,17 +39,36 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public virtual T Size(int width, int height)
+		public virtual T Size(int width, int height, bool updateLayoutElementPreferredSize = true)
 		{
 			return Size(new Vector2(width, height));
 		}
 		
-		public T Size(Vector2 size)
+		public T Size(Vector2 size, bool updateLayoutElementPreferredSize = true)
 		{
 			rectTransform.sizeDelta = size;
+			
+			if (updateLayoutElementPreferredSize)
+			{
+				_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
+				_layoutElement.preferredHeight = size.y;
+				_layoutElement.preferredWidth = size.x;
+			}
+			
+			return this as T;
+		}
+		
+		public virtual T PreferredWidth(int width)
+		{
 			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
-			_layoutElement.preferredHeight = size.y;
-			_layoutElement.preferredWidth = size.x;
+			_layoutElement.preferredWidth = width;
+			return this as T;
+		}
+		
+		public virtual T PreferredHeight(int height)
+		{
+			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
+			_layoutElement.preferredHeight = height;
 			return this as T;
 		}
 		
@@ -120,6 +140,12 @@ namespace FluentUI.Elements
 			layoutElement.flexibleHeight = height;
 			return this as T;
 		}
+
+		public T PreferredWidthFromHeight()
+		{
+			gameObject.GetOrAddComponent<UpdatePreferredWidthFromHeight>();
+			return this as T;
+		}
 		
 		public Window Window(string title)
 		{
@@ -136,14 +162,19 @@ namespace FluentUI.Elements
 			return Elements.Label.Create(Content, text);
 		}
 		
-		public Label Label(UIBinding<string> binding)
+		public Label Label(UIBinding<string> text)
 		{
-			return Elements.Label.Create(Content, binding);
+			return Elements.Label.Create(Content, text);
 		}
 		
 		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
 		{
 			return Elements.Dropdown.Create(Content, label, selection, values);
+		}
+		
+		public Toggle Toggle(string label, UIBinding<bool> value)
+		{
+			return Elements.Toggle.Create(Content, label, value);
 		}
 		
 		public VerticalGroup VerticalGroup()
@@ -166,9 +197,9 @@ namespace FluentUI.Elements
 			return Elements.Image.Create(Content, sprite);
 		}
 		
-		public Image Image(UIBinding<Sprite> binding)
+		public Image Image(UIBinding<Sprite> sprite)
 		{
-			return Elements.Image.Create(Content, binding);
+			return Elements.Image.Create(Content, sprite);
 		}
 		
 		public void Children(params Action<Element<T>>[] actions)
@@ -177,6 +208,11 @@ namespace FluentUI.Elements
 			{
 				action?.Invoke(this);
 			}
+		}
+		
+		public Canvas OverlayCanvas(int sortingOrder)
+		{
+			return Canvas.CreateOverlay(Content, sortingOrder);
 		}
 	}
 }

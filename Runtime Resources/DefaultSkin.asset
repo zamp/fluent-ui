@@ -40,3 +40,4 @@ MonoBehaviour:
   LayoutGroupSpacing: 2
   PanelSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
   PanelColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
+  ToggleCheckSprite: {fileID: 21300000, guid: 59a2bdfc03227164f8c7936d42ae020b, type: 3}

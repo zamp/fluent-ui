@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FluentUI.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,13 +15,20 @@ namespace FluentUI.Elements
 		private GameObject _valuesContainer;
 		private Label _selectionText;
 		private RectTransform _valuesRectTransform;
-		
+		private Canvas _overlayCanvas;
+
 		private event Action<int> _onSelectionChanged;
 
-		public override Dropdown Size(int width, int height)
+		public override Dropdown Size(int width, int height, bool updateLayoutPreferredSize = true)
 		{
 			_valuesRectTransform.sizeDelta = new Vector2(0, height * _values.Length);
-			return base.Size(width, height);
+			return base.Size(width, height, updateLayoutPreferredSize);
+		}
+
+		public override Dropdown PreferredHeight(int height)
+		{
+			_valuesRectTransform.sizeDelta = new Vector2(0, height * _values.Length);
+			return base.PreferredHeight(height);
 		}
 
 		public Dropdown OnSelectionChanged(Action<int> callback)
@@ -56,16 +64,18 @@ namespace FluentUI.Elements
 						.FlexibleWidth(1)
 						.Out(out buttonGameObject)
 						.OnClick(OpenSelection)
-						.Label(_values.ElementAtOrDefault(selection.Value)).Out(out _selectionText)
+						.Children(
+							y => y.Label(_values.ElementAtOrDefault(selection.Value)).Out(out _selectionText),
+							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).Fill().Out(out _overlayCanvas))
 					);
 			
 			var buttonRt = (RectTransform)buttonGameObject.transform;
 			var buttonSizeDelta = buttonRt.sizeDelta;
 
 			_valuesContainer = new GameObject("Values");
-			_valuesContainer.transform.SetParent(buttonRt, false);
-
-			_valuesRectTransform = _valuesContainer.AddComponent<RectTransform>();
+			_valuesContainer.transform.SetParent(_overlayCanvas.transform, false);
+			
+			_valuesRectTransform = _valuesContainer.GetOrAddComponent<RectTransform>();
 			_valuesRectTransform.anchorMin = new Vector2(0, 1);
 			_valuesRectTransform.anchorMax = new Vector2(1, 1);
 			_valuesRectTransform.pivot = new Vector2(0, 1);
@@ -99,16 +109,6 @@ namespace FluentUI.Elements
 		private void OpenSelection()
 		{
 			_valuesContainer.SetActive(true);
-		}
-
-		private void CreateUnityComponents(UIBinding<string> binding)
-		{
-			_text = gameObject.AddComponent<TextMeshProUGUI>();
-			_text.font = UIRoot.Skin.Font;
-			_text.fontSize = UIRoot.Skin.FontSize;
-
-			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
-			valueUpdater.Initialize(binding, value => _text.text = value);
 		}
 
 		#endregion

@@ -35,5 +35,8 @@ namespace FluentUI
 		[Header("Panel")]
 		public Sprite PanelSprite;
 		public Color PanelColor;
+
+		[Header("Toggle")]
+		public Sprite ToggleCheckSprite;
 	}
 }
