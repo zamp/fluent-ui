@@ -38,5 +38,11 @@ namespace FluentUI
 
 		[Header("Toggle")]
 		public Sprite ToggleCheckSprite;
+
+		[Header("Slider")]
+		public Sprite SliderFillSprite;
+		public Color SliderFillColor;
+		public Sprite SliderHandleSprite;
+		public Color SliderHandleColor;
 	}
 }

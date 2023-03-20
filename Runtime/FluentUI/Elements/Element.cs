@@ -17,7 +17,9 @@ namespace FluentUI.Elements
 
 		protected virtual Transform Content => transform;
 
-		public RectTransform rectTransform => (RectTransform)transform;
+		protected RectTransform rectTransform => (RectTransform)transform;
+		
+		#region Settings & Properties
 
 		protected T ClampToParent()
 		{
@@ -36,6 +38,37 @@ namespace FluentUI.Elements
 			localPosition.y = Mathf.Clamp(localPosition.y, minPosition.y, maxPosition.y);
  
 			rectTransform.localPosition = localPosition;
+			return this as T;
+		}
+		
+		public T AnchorMin(Vector2 anchorMin)
+		{
+			rectTransform.anchorMin = anchorMin;
+			return this as T;
+		}
+		
+		public T AnchorMax(Vector2 anchorMax)
+		{
+			rectTransform.anchorMax = anchorMax;
+			return this as T;
+		}
+		
+		public T Pivot(Vector2 pivot)
+		{
+			rectTransform.pivot = pivot;
+			return this as T;
+		}
+		
+		public T AnchoredPosition(Vector2 anchoredPosition)
+		{
+			rectTransform.anchoredPosition = anchoredPosition;
+			return this as T;
+		}
+		
+		public T IgnoreLayout()
+		{
+			var layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
+			layoutElement.ignoreLayout = true;
 			return this as T;
 		}
 		
@@ -147,6 +180,15 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
+		#endregion
+		
+		#region Elements
+		
+		public Empty Empty()
+		{
+			return Elements.Empty.Create(Content);
+		}
+		
 		public Window Window(string title)
 		{
 			return Elements.Window.Create(Content, title);
@@ -177,14 +219,19 @@ namespace FluentUI.Elements
 			return Elements.Toggle.Create(Content, label, value);
 		}
 		
-		public VerticalGroup VerticalGroup()
+		public Slider Slider(string label, UIBinding<float> value)
 		{
-			return Elements.VerticalGroup.Create(Content);
+			return Elements.Slider.Create(Content, label, value);
 		}
 		
-		public HorizontalGroup HorizontalGroup()
+		public VerticalGroup VerticalGroup(GroupForceExpand forceExpand = GroupForceExpand.Horizontal)
 		{
-			return Elements.HorizontalGroup.Create(Content);
+			return Elements.VerticalGroup.Create(Content, forceExpand);
+		}
+		
+		public HorizontalGroup HorizontalGroup(GroupForceExpand forceExpand = GroupForceExpand.Vertical)
+		{
+			return Elements.HorizontalGroup.Create(Content, forceExpand);
 		}
 		
 		public Panel Panel()
@@ -202,6 +249,15 @@ namespace FluentUI.Elements
 			return Elements.Image.Create(Content, sprite);
 		}
 		
+		public Canvas OverlayCanvas(int sortingOrder)
+		{
+			return Canvas.CreateOverlay(Content, sortingOrder);
+		}
+		
+		#endregion
+		
+		#region Utilities
+		
 		public void Children(params Action<Element<T>>[] actions)
 		{
 			foreach (var action in actions)
@@ -210,9 +266,6 @@ namespace FluentUI.Elements
 			}
 		}
 		
-		public Canvas OverlayCanvas(int sortingOrder)
-		{
-			return Canvas.CreateOverlay(Content, sortingOrder);
-		}
+		#endregion
 	}
 }

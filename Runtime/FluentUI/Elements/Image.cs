@@ -43,8 +43,8 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents(Sprite sprite)
 		{
-			var image = gameObject.AddComponent<UnityEngine.UI.Image>();
-			image.sprite = sprite;
+			_image = gameObject.AddComponent<UnityEngine.UI.Image>();
+			_image.sprite = sprite;
 		}
 		
 		#endregion Creation

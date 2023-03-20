@@ -13,17 +13,17 @@ namespace FluentUI.Elements
 		Both = Vertical | Horizontal
 	}
 	
-	public class Group : Element<Group>
+	public class Group<T> : Element<T> where T : Element
 	{
 		protected LayoutGroup _layoutGroup;
 		
-		public Group Padding(RectOffset padding)
+		public T Padding(RectOffset padding)
 		{
 			_layoutGroup.padding = padding;
-			return this;
+			return this as T;
 		}
 		
-		public Group Padding(int left, int right, int top, int bottom)
+		public T Padding(int left, int right, int top, int bottom)
 		{
 			return Padding(new RectOffset(left, right, top, bottom));
 		}

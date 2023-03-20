@@ -1,0 +1,17 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace FluentUI.Components
+{
+	[RequireComponent(typeof(CanvasRenderer))]
+	public class EmptyRaycastTarget : Graphic
+	{
+		public override void SetMaterialDirty() { return; }
+		public override void SetVerticesDirty() { return; }
+		
+		protected override void OnPopulateMesh(VertexHelper vh)
+		{
+			vh.Clear();
+		}
+	}
+}

@@ -3,8 +3,14 @@ using UnityEngine.UI;
 
 namespace FluentUI.Elements
 {
-	public class HorizontalGroup : Group
+	public class HorizontalGroup : Group<HorizontalGroup>
 	{
+		public HorizontalGroup Spacing(float spacing)
+		{
+			((HorizontalLayoutGroup)_layoutGroup).spacing = spacing;
+			return this;
+		}
+
 		#region Creation
 		
 		public static HorizontalGroup Create(Transform parent, GroupForceExpand forceExpand = GroupForceExpand.Vertical)

@@ -9,8 +9,6 @@ namespace FluentUI.Elements
 {
 	public class Dropdown : Element<Dropdown>
 	{
-		private TextMeshProUGUI _text;
-		private UnityEngine.UI.Button _button;
 		private string[] _values;
 		private GameObject _valuesContainer;
 		private Label _selectionText;
@@ -59,14 +57,18 @@ namespace FluentUI.Elements
 			HorizontalGroup().
 				Padding(0,0,0,0).
 				Children(
-					x => x.Label(label),
+					x => x.Label(label)
+						.Align(TextAlignmentOptions.MidlineLeft),
 					x => x.Button()
 						.FlexibleWidth(1)
 						.Out(out buttonGameObject)
 						.OnClick(OpenSelection)
 						.Children(
-							y => y.Label(_values.ElementAtOrDefault(selection.Value)).Out(out _selectionText),
-							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).Fill().Out(out _overlayCanvas))
+							y => y.Label(_values.ElementAtOrDefault(selection.Value))
+								.Align(TextAlignmentOptions.MidlineLeft)
+								.Out(out _selectionText),
+							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).Fill()
+								.Out(out _overlayCanvas))
 					);
 			
 			var buttonRt = (RectTransform)buttonGameObject.transform;
@@ -95,7 +97,8 @@ namespace FluentUI.Elements
 					{
 						selection.Value = capture;
 						_valuesContainer.SetActive(false);
-						_selectionText.SetText(_values[capture]);
+						_selectionText.Text(_values[capture])
+							.Align(TextAlignmentOptions.MidlineLeft);
 						_onSelectionChanged?.Invoke(capture);
 					})
 					.Label(_values[i]);
@@ -104,6 +107,9 @@ namespace FluentUI.Elements
 			_valuesContainer.SetActive(false);
 
 			Fill();
+			
+			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
+			valueUpdater.Initialize(selection, value => _selectionText.Text(_values[value]));
 		}
 
 		private void OpenSelection()

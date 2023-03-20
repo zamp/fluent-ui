@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace FluentUI.Elements
 {
@@ -43,19 +41,25 @@ namespace FluentUI.Elements
 		{
 			gameObject.AddComponent<RectTransform>();
 			
-			HorizontalGroup().
-				Padding(0,0,0,0).
-				Children(
+			HorizontalGroup()
+				.Padding(0,0,0,0)
+				.Spacing(5)
+				.Children(
 					x => x.Button()
 						.PreferredWidthFromHeight()
 						.Out(out _button)
 						.OnClick(ToggleValue)
 						.Image(UIRoot.Skin.ToggleCheckSprite).Out(out _toggleCheckImage).Fill(),
-					x => x.Label(label).FlexibleWidth(1));
+					x => x.Label(label)
+						.FlexibleWidth(1)
+						.Align(TextAlignmentOptions.MidlineLeft));
 			
 			_toggleCheckImage.gameObject.SetActive(_value.Value);
 			
 			Fill();
+			
+			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
+			valueUpdater.Initialize(_value, value => _toggleCheckImage.gameObject.SetActive(value));
 		}
 
 		private void ToggleValue()

@@ -13,7 +13,7 @@ namespace FluentUI.Elements
 			return this;
 		}
 
-		public Label SetText(string text)
+		public Label Text(string text)
 		{
 			_text.text = text;
 			return this;
@@ -56,6 +56,7 @@ namespace FluentUI.Elements
 			_text = gameObject.AddComponent<TextMeshProUGUI>();
 			_text.font = UIRoot.Skin.Font;
 			_text.fontSize = UIRoot.Skin.FontSize;
+			_text.alignment = TextAlignmentOptions.MidlineLeft;
 
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
 			valueUpdater.Initialize(binding, value => _text.text = value);
