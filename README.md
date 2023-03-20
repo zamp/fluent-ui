@@ -7,35 +7,35 @@ Code that was used to make what's in the video:
 
 ```cs
 UIRoot.Canvas()
-	.ScreenSpaceOverlay()
-		.Children(
-			x => x.Panel()
-				.Size(new Vector2(400,200))
-				.Center()
-				.VerticalGroup()
-					.Children(
-						y => y.Label("This is a label"),
-						y => y.Button()
-							.PreferredHeight(20)
-							.OnClick(() => _windowReference.Open())
-							.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
-						y => y.Label(_labelBinding),
-						y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
-							.PreferredHeight(20)
-							.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
-						y => y.Toggle("Toggle", _toggleBinding)
-							.PreferredHeight(20),
-						y => y.Slider("Slider: ", _sliderBinding)
-							.PreferredHeight(20)
-					),
-			x => x.Window("Draggable window")
-				.Position(400,400)
-				.Size(200,100)
-				.Out(out _windowReference)
-				.VerticalGroup(GroupForceExpand.Both)
-					.Fill()    
-					.Image(_imageBinding)
-		);
+    .ScreenSpaceOverlay()
+        .Children(
+            x => x.Panel()
+                .Size(new Vector2(400,200))
+                .Center()
+                .VerticalGroup()
+                    .Children(
+                        y => y.Label("This is a label"),
+                        y => y.Button()
+                            .PreferredHeight(20)
+                            .OnClick(() => _windowReference.Open())
+                            .Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
+                        y => y.Label(_labelBinding),
+                        y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
+                            .PreferredHeight(20)
+                            .OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
+                        y => y.Toggle("Toggle", _toggleBinding)
+                            .PreferredHeight(20),
+                        y => y.Slider("Slider: ", _sliderBinding)
+                            .PreferredHeight(20)
+                    ),
+            x => x.Window("Draggable window")
+                .Position(400,400)
+                .Size(200,100)
+                .Out(out _windowReference)
+                .VerticalGroup(GroupForceExpand.Both)
+                    .Fill()    
+                    .Image(_imageBinding)
+        );
 ```
 
 # How to install
