@@ -128,12 +128,6 @@ namespace FluentUI.Elements
 			rectTransform.anchoredPosition = position;
 			return this as T;
 		}
-		
-		public T RestorePosition()
-		{
-			rectTransform.anchoredPosition = Vector2.zero;
-			return this as T;
-		}
 
 		public T SetParent(Transform parent)
 		{
@@ -180,6 +174,13 @@ namespace FluentUI.Elements
 		public T PreferredWidthFromHeight()
 		{
 			gameObject.GetOrAddComponent<UpdatePreferredWidthFromHeight>();
+			return this as T;
+		}
+
+		public T Disable(UIBinding<bool> condition)
+		{
+			var canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+			condition.OnValueChanged += () => canvasGroup.interactable = condition.Value;
 			return this as T;
 		}
 		
@@ -269,7 +270,7 @@ namespace FluentUI.Elements
 			}
 		}
 
-		public void DestroySelf()
+		public void Dispose()
 		{
 			DestroyImmediate(gameObject);
 		}

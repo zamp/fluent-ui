@@ -18,11 +18,15 @@ namespace FluentUI.Elements
 		private GameObject _closeButton;
 		private GameObject _content;
 		private GameObject _titleText;
+		private string _title;
 
 		private event Action _onClosed;
 		private event Action _onOpened;
 
 		protected override Transform Content => _content.transform;
+		
+		private string PrefsY => $"{_title}_y";
+		private string PrefsX => $"{_title}_x";
 
 		public Window Close()
 		{
@@ -62,6 +66,31 @@ namespace FluentUI.Elements
 			return this;
 		}
 		
+		public Window RestorePositionOr(Action<Window> callback)
+		{
+			if (PlayerPrefs.HasKey(PrefsX) && PlayerPrefs.HasKey(PrefsY))
+			{
+				var v = new Vector2(PlayerPrefs.GetFloat(PrefsX, 0f), PlayerPrefs.GetFloat(PrefsY, 0));
+				rectTransform.anchoredPosition = v;
+			}
+			else
+			{
+				callback?.Invoke(this);
+			}
+
+			return this;
+		}
+		
+		private void OnDrag(Vector2 delta)
+		{
+			var anchoredPosition = rectTransform.anchoredPosition;
+			anchoredPosition += delta;
+			rectTransform.anchoredPosition = anchoredPosition;
+			PlayerPrefs.SetFloat(PrefsX, anchoredPosition.x);
+			PlayerPrefs.SetFloat(PrefsY, anchoredPosition.y);
+			ClampToParent();
+		}
+		
 		#region Creation
 		
 		public static Window Create(Transform parent, string title)
@@ -70,6 +99,7 @@ namespace FluentUI.Elements
 			gameObject.transform.parent = parent;
 
 			var window = gameObject.AddComponent<Window>();
+			window._title = title;
 			window.CreateUnityComponents(title);
 			return window;
 		}
@@ -110,12 +140,6 @@ namespace FluentUI.Elements
 			obj.AddComponent<Drag>().OnDrag += OnDrag;
 
 			return obj;
-		}
-
-		private void OnDrag(Vector2 delta)
-		{
-			rectTransform.anchoredPosition += delta;
-			ClampToParent();
 		}
 
 		private GameObject CreateTitleText(GameObject container, string text)
