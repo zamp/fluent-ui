@@ -39,7 +39,7 @@ namespace FluentUI.Elements
 		
 		public static Dropdown Create(Transform parent, string label, UIBinding<int> selection, string[] values)
 		{
-			var gameObject = new GameObject($"{nameof(Dropdown)}");
+			var gameObject = new GameObject($"{nameof(Dropdown)}", typeof(RectTransform));
 			gameObject.transform.SetParent(parent, false);
 
 			var dropdown = gameObject.AddComponent<Dropdown>();
@@ -67,14 +67,14 @@ namespace FluentUI.Elements
 							y => y.Label(_values.ElementAtOrDefault(selection.Value))
 								.Align(TextAlignmentOptions.MidlineLeft)
 								.Out(out _selectionText),
-							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).Fill()
+							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).FitToParent()
 								.Out(out _overlayCanvas))
 					);
 			
 			var buttonRt = (RectTransform)buttonGameObject.transform;
 			var buttonSizeDelta = buttonRt.sizeDelta;
 
-			_valuesContainer = new GameObject("Values");
+			_valuesContainer = new GameObject("Values", typeof(RectTransform));
 			_valuesContainer.transform.SetParent(_overlayCanvas.transform, false);
 			
 			_valuesRectTransform = _valuesContainer.GetOrAddComponent<RectTransform>();
@@ -106,7 +106,7 @@ namespace FluentUI.Elements
 			
 			_valuesContainer.SetActive(false);
 
-			Fill();
+			FitToParent();
 			
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
 			valueUpdater.Initialize(selection, value => _selectionText.Text(_values[value]));

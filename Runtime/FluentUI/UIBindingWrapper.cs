@@ -17,10 +17,10 @@ namespace FluentUI
 			_binding.OnValueChanged += OnValueChanged;
 			
 			_onValueChanged = onValueChanged;
-			OnValueChanged();
+			OnValueChanged(_binding.Value);
 		}
 
-		private void OnValueChanged()
+		private void OnValueChanged(T value)
 		{
 			_onValueChanged?.Invoke(_binding.Value);
 		}

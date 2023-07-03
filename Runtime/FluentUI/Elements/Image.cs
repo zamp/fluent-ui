@@ -12,12 +12,18 @@ namespace FluentUI.Elements
 			return this;
 		}
 
+		public Image Sprite(Sprite sprite)
+		{
+			_image.sprite = sprite;
+			return this;
+		}
+
 		#region Creation
 		
 		public static Image Create(Transform parent, UIBinding<Sprite> binding)
 		{
-			var gameObject = new GameObject($"{nameof(Elements.Image)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Elements.Image)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var component = gameObject.AddComponent<Image>();
 			component.CreateUnityComponents(binding);
@@ -33,8 +39,8 @@ namespace FluentUI.Elements
 		
 		public static Image Create(Transform parent, Sprite sprite)
 		{
-			var gameObject = new GameObject($"{nameof(Elements.Image)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Elements.Image)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var component = gameObject.AddComponent<Image>();
 			component.CreateUnityComponents(sprite);

@@ -49,7 +49,7 @@ namespace FluentUIExamples
 							.Size(200,100)
 							.Out(out _windowReference)
 							.VerticalGroup(GroupForceExpand.Both)
-								.Fill()	
+								.FitToParent()	
 								.Image(_imageBinding)
 					);
 		}

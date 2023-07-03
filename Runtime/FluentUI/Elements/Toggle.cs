@@ -1,4 +1,5 @@
 using System;
+using FluentUI.Extensions;
 using TMPro;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace FluentUI.Elements
 		
 		public static Toggle Create(Transform parent, string label, UIBinding<bool> value)
 		{
-			var gameObject = new GameObject($"{nameof(Toggle)}");
+			var gameObject = new GameObject($"{nameof(Toggle)}", typeof(RectTransform));
 			gameObject.transform.SetParent(parent, false);
 
 			var toggle = gameObject.AddComponent<Toggle>();
@@ -39,24 +40,26 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents(string label)
 		{
-			gameObject.AddComponent<RectTransform>();
+			gameObject.GetOrAddComponent<RectTransform>();
 			
+			FitToParent();
+
 			HorizontalGroup()
-				.Padding(0,0,0,0)
+				.Padding(0, 0, 0, 0)
 				.Spacing(5)
 				.Children(
 					x => x.Button()
 						.PreferredWidthFromHeight()
 						.Out(out _button)
 						.OnClick(ToggleValue)
-						.Image(UIRoot.Skin.ToggleCheckSprite).Out(out _toggleCheckImage).Fill(),
+						.Image(UIRoot.Skin.ToggleCheckSprite).Out(out _toggleCheckImage).FitToParent(),
 					x => x.Label(label)
 						.FlexibleWidth(1)
 						.Align(TextAlignmentOptions.MidlineLeft));
 			
-			_toggleCheckImage.gameObject.SetActive(_value.Value);
+			PreferredHeight(UIRoot.Skin.DefaultToggleHeight);
 			
-			Fill();
+			_toggleCheckImage.gameObject.SetActive(_value.Value);
 			
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
 			valueUpdater.Initialize(_value, value => _toggleCheckImage.gameObject.SetActive(value));

@@ -1,5 +1,6 @@
 using System;
 using FluentUI.Components;
+using FluentUI.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,7 @@ namespace FluentUI.Elements
 		private event Action _onClosed;
 		private event Action _onOpened;
 
-		protected override Transform Content => _content.transform;
+		public override Transform Content => _content.transform;
 		
 		private string PrefsY => $"{_title}_y";
 		private string PrefsX => $"{_title}_x";
@@ -95,8 +96,8 @@ namespace FluentUI.Elements
 		
 		public static Window Create(Transform parent, string title)
 		{
-			var gameObject = new GameObject($"{nameof(Elements.Window)}_{title}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Elements.Window)}_{title}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var window = gameObject.AddComponent<Window>();
 			window._title = title;
@@ -106,7 +107,7 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents(string title)
 		{
-			gameObject.AddComponent<RectTransform>();
+			gameObject.GetOrAddComponent<RectTransform>();
 
 			var verticalLayoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
 			verticalLayoutGroup.padding = new RectOffset(0, 0, 0, 0);
@@ -121,8 +122,8 @@ namespace FluentUI.Elements
 		
 		private GameObject CreateTitleBar()
 		{
-			var obj = new GameObject("TitleBar");
-			obj.transform.parent = Transform;
+			var obj = new GameObject("TitleBar", typeof(RectTransform));
+			obj.transform.SetParent(Transform, false);
 
 			var layoutGroup = obj.AddComponent<HorizontalLayoutGroup>();
 			layoutGroup.childForceExpandWidth = false;
@@ -144,8 +145,8 @@ namespace FluentUI.Elements
 
 		private GameObject CreateTitleText(GameObject container, string text)
 		{
-			var obj = new GameObject("TitleText");
-			obj.transform.parent = container.transform;
+			var obj = new GameObject("TitleText", typeof(RectTransform));
+			obj.transform.SetParent(container.transform);
 
 			var textMesh = obj.AddComponent<TextMeshProUGUI>();
 			textMesh.font = UIRoot.Skin.Font;
@@ -163,8 +164,8 @@ namespace FluentUI.Elements
 
 		private GameObject CreateCloseButton(GameObject container)
 		{
-			var obj = new GameObject("CloseButton");
-			obj.transform.parent = container.transform;
+			var obj = new GameObject("CloseButton", typeof(RectTransform));
+			obj.transform.SetParent(container.transform);
 
 			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.WindowCloseButtonSprite;
@@ -181,8 +182,8 @@ namespace FluentUI.Elements
 		
 		private GameObject CreateContent()
 		{
-			var obj = new GameObject("Content");
-			obj.transform.parent = Transform;
+			var obj = new GameObject("Content", typeof(RectTransform));
+			obj.transform.SetParent(Transform, false);
 
 			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.WindowContentSprite;

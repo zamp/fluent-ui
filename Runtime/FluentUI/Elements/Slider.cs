@@ -45,7 +45,7 @@ namespace FluentUI.Elements
 		
 		public static Slider Create(Transform parent, string label, UIBinding<float> value)
 		{
-			var gameObject = new GameObject($"{nameof(Slider)}");
+			var gameObject = new GameObject($"{nameof(Slider)}", typeof(RectTransform));
 			gameObject.transform.SetParent(parent, false);
 
 			var toggle = gameObject.AddComponent<Slider>();
@@ -75,7 +75,7 @@ namespace FluentUI.Elements
 									y => y.Image(UIRoot.Skin.SliderFillSprite)
 										.Color(UIRoot.Skin.SliderFillColor)
 										.Out(out fillImage)
-										.Fill(),
+										.FitToParent(),
 									y => y.Image(UIRoot.Skin.SliderHandleSprite)
 										.Color(UIRoot.Skin.SliderHandleColor)
 										.AnchorMin(half)
@@ -96,7 +96,7 @@ namespace FluentUI.Elements
 			slider.fillRect = fillImage.gameObject.GetOrAddComponent<RectTransform>();
 			slider.handleRect = _handleImage.gameObject.GetOrAddComponent<RectTransform>();
 			
-			Fill();
+			FitToParent();
 			
 			var valueUpdater = sliderGameObject.AddComponent<UIBindingUpdater>();
 			valueUpdater.Initialize(_value, v => slider.SetValueWithoutNotify(v));

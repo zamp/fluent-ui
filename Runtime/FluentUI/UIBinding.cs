@@ -4,7 +4,7 @@ namespace FluentUI
 {
 	public class UIBinding<T>
 	{
-		public event Action OnValueChanged;
+		public event Action<T> OnValueChanged;
 		
 		private T _value;
 		
@@ -14,7 +14,7 @@ namespace FluentUI
 			set
 			{
 				_value = value;
-				OnValueChanged?.Invoke();
+				OnValueChanged?.Invoke(_value);
 			}
 		}
 	}

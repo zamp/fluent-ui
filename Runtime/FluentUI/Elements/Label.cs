@@ -23,8 +23,8 @@ namespace FluentUI.Elements
 		
 		public static Label Create(Transform parent, UIBinding<string> binding)
 		{
-			var gameObject = new GameObject($"{nameof(Label)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Label)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var button = gameObject.AddComponent<Label>();
 			button.CreateUnityComponents(binding);
@@ -33,8 +33,8 @@ namespace FluentUI.Elements
 		
 		public static Label Create(Transform parent, string value)
 		{
-			var gameObject = new GameObject($"{nameof(Label)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Label)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var button = gameObject.AddComponent<Label>();
 			button.CreateUnityComponents(value);
@@ -48,7 +48,9 @@ namespace FluentUI.Elements
 			_text.fontSize = UIRoot.Skin.FontSize;
 			_text.text = value;
 
-			Fill();
+			PreferredHeight(UIRoot.Skin.DefaultLabelHeight);
+
+			FitToParent();
 		}
 		
 		private void CreateUnityComponents(UIBinding<string> binding)
@@ -61,7 +63,7 @@ namespace FluentUI.Elements
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
 			valueUpdater.Initialize(binding, value => _text.text = value);
 
-			Fill();
+			FitToParent();
 		}
 
 		#endregion

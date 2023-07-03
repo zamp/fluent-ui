@@ -40,8 +40,8 @@ namespace FluentUI.Elements
 		
 		internal static Canvas Create(Transform parent)
 		{
-			var gameObject = new GameObject($"{nameof(Canvas)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Canvas)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var canvas = gameObject.AddComponent<Canvas>();
 			canvas._canvas = gameObject.AddComponent<UnityEngine.Canvas>();
@@ -52,8 +52,8 @@ namespace FluentUI.Elements
 		
 		internal static Canvas CreateOverlay(Transform parent, int sortingOrder)
 		{
-			var gameObject = new GameObject($"{nameof(Canvas)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Canvas)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var canvas = gameObject.AddComponent<Canvas>();
 			canvas._canvas = gameObject.AddComponent<UnityEngine.Canvas>();

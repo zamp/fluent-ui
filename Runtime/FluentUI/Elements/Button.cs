@@ -18,8 +18,8 @@ namespace FluentUI.Elements
 		
 		public static Button Create(Transform parent)
 		{
-			var gameObject = new GameObject($"{nameof(Button)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Button)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var button = gameObject.AddComponent<Button>();
 			button.CreateUnityComponents();
@@ -34,6 +34,8 @@ namespace FluentUI.Elements
 			var image = gameObject.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.ButtonSprite;
 			image.color = UIRoot.Skin.ButtonColor;
+			
+			PreferredHeight(UIRoot.Skin.DefaultButtonHeight);
 		}
 
 		#endregion

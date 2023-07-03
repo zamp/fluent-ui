@@ -10,14 +10,14 @@ namespace FluentUI.Elements
 	{
 		private GameObject _content;
 
-		protected override Transform Content => _content.transform;
+		public override Transform Content => _content.transform;
 		
 		#region Creation
 		
 		public static Panel Create(Transform parent)
 		{
-			var gameObject = new GameObject($"{nameof(Elements.Panel)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(Elements.Panel)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var panel = gameObject.AddComponent<Panel>();
 			panel.CreateUnityComponents();
@@ -26,8 +26,6 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents()
 		{
-			gameObject.AddComponent<RectTransform>();
-
 			var verticalLayoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
 			verticalLayoutGroup.padding = new RectOffset(0, 0, 0, 0);
 			verticalLayoutGroup.spacing = 0;
@@ -38,8 +36,8 @@ namespace FluentUI.Elements
 		
 		private GameObject CreateContent()
 		{
-			var obj = new GameObject("Content");
-			obj.transform.parent = Transform;
+			var obj = new GameObject("Content", typeof(RectTransform));
+			obj.transform.SetParent(Transform);
 
 			var image = obj.AddComponent<UnityEngine.UI.Image>();
 			image.sprite = UIRoot.Skin.PanelSprite;

@@ -19,10 +19,14 @@ namespace FluentUI
 		public Color WindowCloseButtonColor;
 		
 		public Vector2 WindowCloseButtonSize;
+		
+		[Header("Label")]
+		public int DefaultLabelHeight = 20;
 
 		[Header("Button")]
 		public Sprite ButtonSprite;
 		public Color ButtonColor;
+		public int DefaultButtonHeight = 20;
 		
 		[Header("Fonts")]
 		public TMP_FontAsset Font;
@@ -38,11 +42,22 @@ namespace FluentUI
 
 		[Header("Toggle")]
 		public Sprite ToggleCheckSprite;
+		public int DefaultToggleHeight = 20;
 
 		[Header("Slider")]
 		public Sprite SliderFillSprite;
 		public Color SliderFillColor;
 		public Sprite SliderHandleSprite;
 		public Color SliderHandleColor;
+
+		[Header("Tabs")]
+		public float TabHeight;
+		public Sprite TabInactiveBackground;
+		public Sprite TabActiveBackground;
+		public Color TabBackgroundColor;
+
+		[Header("Fold")]
+		public Sprite FoldClosedSprite;
+		public Sprite FoldOpenSprite;
 	}
 }

@@ -16,8 +16,8 @@ namespace FluentUI.Elements
 		
 		public static VerticalGroup Create(Transform parent, GroupForceExpand forceExpand = GroupForceExpand.Horizontal)
 		{
-			var gameObject = new GameObject($"{nameof(VerticalGroup)}");
-			gameObject.transform.parent = parent;
+			var gameObject = new GameObject($"{nameof(VerticalGroup)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
 
 			var verticalGroup = gameObject.AddComponent<VerticalGroup>();
 			verticalGroup.CreateUnityComponents(forceExpand);
@@ -33,7 +33,7 @@ namespace FluentUI.Elements
 			group.childForceExpandHeight = forceExpand.HasFlag(GroupForceExpand.Vertical);
 			_layoutGroup = group;
 			
-			Fill();
+			FitToParent();
 		}
 
 		#endregion

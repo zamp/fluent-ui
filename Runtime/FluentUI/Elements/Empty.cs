@@ -6,7 +6,7 @@ namespace FluentUI.Elements
 	{
 		public static Empty Create(Transform parent)
 		{
-			var gameObject = new GameObject($"{nameof(Empty)}");
+			var gameObject = new GameObject($"{nameof(Empty)}", typeof(RectTransform));
 			gameObject.transform.SetParent(parent, false);
 
 			var empty = gameObject.AddComponent<Empty>();

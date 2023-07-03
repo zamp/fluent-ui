@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentUI.Components;
 using FluentUI.Extensions;
 using UnityEngine;
@@ -16,7 +18,7 @@ namespace FluentUI.Elements
 		private LayoutElement _layoutElement;
 		protected Transform Transform => transform;
 
-		protected virtual Transform Content => transform;
+		public virtual Transform Content => transform;
 
 		protected RectTransform rectTransform => (RectTransform)transform;
 		
@@ -141,7 +143,7 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public T Fill()
+		public T FitToParent()
 		{
 			rectTransform.pivot = Vector2.one / 2f;
 			rectTransform.anchorMin = Vector2.zero;
@@ -180,8 +182,16 @@ namespace FluentUI.Elements
 		public T Disable(UIBinding<bool> condition)
 		{
 			var canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
-			condition.OnValueChanged += () => canvasGroup.interactable = condition.Value;
+			condition.OnValueChanged += value => canvasGroup.interactable = value;
 			return this as T;
+		}
+
+		public T ContentSizeFit(ContentSizeFitter.FitMode horizontalFit, ContentSizeFitter.FitMode verticalFit)
+		{
+			var contentSizeFitter = gameObject.GetOrAddComponent<ContentSizeFitter>();
+			contentSizeFitter.horizontalFit = horizontalFit;
+			contentSizeFitter.verticalFit = verticalFit;
+			return this as T; 
 		}
 		
 		#endregion
@@ -257,6 +267,16 @@ namespace FluentUI.Elements
 		{
 			return Canvas.CreateOverlay(Content, sortingOrder);
 		}
+
+		public Tabs Tabs()
+		{
+			return Elements.Tabs.Create(Content);
+		}
+
+		public Fold Fold(string label)
+		{
+			return Elements.Fold.Create(Content, label);
+		}
 		
 		#endregion
 		
@@ -267,6 +287,35 @@ namespace FluentUI.Elements
 			foreach (var action in actions)
 			{
 				action?.Invoke(this);
+			}
+		}
+		
+		public void Children<TData>(UIBinding<IEnumerable<TData>> data, Action<T, TData> elementFactory)
+		{
+			data.OnValueChanged += value =>
+			{
+				Clear();
+				foreach (var elementData in data.Value)
+				{
+					elementFactory(this as T, elementData);
+				}
+			};
+		}
+		
+		public void Children<TData>(IEnumerable<TData> data, Action<T, TData> elementFactory)
+		{
+			Clear();
+			foreach (var elementData in data)
+			{
+				elementFactory(this as T, elementData);
+			}
+		}
+
+		private void Clear()
+		{
+			for (var i = 0; i < transform.childCount; i++)
+			{
+				DestroyImmediate(transform.GetChild(i).gameObject);
 			}
 		}
 
