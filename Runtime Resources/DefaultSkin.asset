@@ -28,8 +28,12 @@ MonoBehaviour:
     type: 3}
   WindowCloseButtonColor: {r: 1, g: 1, b: 1, a: 1}
   WindowCloseButtonSize: {x: 16, y: 16}
+  DefaultLabelHeight: 20
+  DefaultInputFieldHeight: 20
+  InputFieldSprite: {fileID: 21300000, guid: 27b77267c45f8e543a439e78593732d2, type: 3}
   ButtonSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
   ButtonColor: {r: 0.3068263, g: 0.32629496, b: 0.3301887, a: 1}
+  DefaultButtonHeight: 20
   Font: {fileID: 0}
   FontSize: 13
   LayoutGroupPadding:
@@ -41,6 +45,7 @@ MonoBehaviour:
   PanelSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
   PanelColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
   ToggleCheckSprite: {fileID: 21300000, guid: 59a2bdfc03227164f8c7936d42ae020b, type: 3}
+  DefaultToggleHeight: 20
   SliderFillSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
   SliderFillColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
   SliderHandleSprite: {fileID: 21300000, guid: f62ffe34ce5b0df438e866df7af62e5a, type: 3}
@@ -51,3 +56,6 @@ MonoBehaviour:
   TabActiveBackground: {fileID: 21300000, guid: f165968df0d7ad049a6797d6f1fc9050,
     type: 3}
   TabBackgroundColor: {r: 0.17, g: 0.17, b: 0.17, a: 1}
+  FoldClosedSprite: {fileID: 0}
+  FoldOpenSprite: {fileID: 0}
+  DefaultDropdownHeight: 20

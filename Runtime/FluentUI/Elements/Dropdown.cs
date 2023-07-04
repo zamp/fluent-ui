@@ -106,6 +106,8 @@ namespace FluentUI.Elements
 			
 			_valuesContainer.SetActive(false);
 
+			PreferredHeight(UIRoot.Skin.DefaultDropdownHeight);
+
 			FitToParent();
 			
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
@@ -114,6 +116,7 @@ namespace FluentUI.Elements
 
 		private void OpenSelection()
 		{
+			_overlayCanvas.OverrideSortingOrder(UIRoot.OVERLAY_SORTING_ORDER);
 			_valuesContainer.SetActive(true);
 		}
 

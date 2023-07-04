@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentUI.Components;
 using FluentUI.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace FluentUI.Elements
 {
@@ -225,16 +223,22 @@ namespace FluentUI.Elements
 		
 		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
 		{
+			if (selection == null)
+				throw new NullReferenceException($"Binding is null.");
 			return Elements.Dropdown.Create(Content, label, selection, values);
 		}
 		
 		public Toggle Toggle(string label, UIBinding<bool> value)
 		{
+			if (value == null)
+				throw new NullReferenceException($"Binding is null.");
 			return Elements.Toggle.Create(Content, label, value);
 		}
 		
 		public Slider Slider(string label, UIBinding<float> value)
 		{
+			if (value == null)
+				throw new NullReferenceException($"Binding is null.");
 			return Elements.Slider.Create(Content, label, value);
 		}
 		
@@ -260,6 +264,8 @@ namespace FluentUI.Elements
 		
 		public Image Image(UIBinding<Sprite> sprite)
 		{
+			if (sprite == null)
+				throw new NullReferenceException($"Binding is null.");
 			return Elements.Image.Create(Content, sprite);
 		}
 		
@@ -276,6 +282,11 @@ namespace FluentUI.Elements
 		public Fold Fold(string label)
 		{
 			return Elements.Fold.Create(Content, label);
+		}
+		
+		public InputField InputField(string placeholder = "")
+		{
+			return Elements.InputField.Create(Content, placeholder);
 		}
 		
 		#endregion

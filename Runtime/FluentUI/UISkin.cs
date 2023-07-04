@@ -22,6 +22,10 @@ namespace FluentUI
 		
 		[Header("Label")]
 		public int DefaultLabelHeight = 20;
+		
+		[Header("InputField")]
+		public int DefaultInputFieldHeight = 20;
+		public Sprite InputFieldSprite;
 
 		[Header("Button")]
 		public Sprite ButtonSprite;
@@ -59,5 +63,8 @@ namespace FluentUI
 		[Header("Fold")]
 		public Sprite FoldClosedSprite;
 		public Sprite FoldOpenSprite;
+		
+		[Header("Dropdown")]
+		public int DefaultDropdownHeight = 20;
 	}
 }
