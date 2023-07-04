@@ -1,5 +1,6 @@
 using System;
 using FluentUI.Components;
+using FluentUI.Extensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +10,21 @@ namespace FluentUI.Elements
 	public class Panel : Element<Panel>
 	{
 		private GameObject _content;
+		private UnityEngine.UI.Image _image;
 
 		public override Transform Content => _content.transform;
+
+		public Panel Transparent(bool isTransparent)
+		{
+			_image.enabled = !isTransparent; 
+			return this;
+		}
+		
+		public Panel Color(Color color)
+		{
+			_image.color = color; 
+			return this;
+		}
 		
 		#region Creation
 		
@@ -26,11 +40,6 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents()
 		{
-			var verticalLayoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
-			verticalLayoutGroup.padding = new RectOffset(0, 0, 0, 0);
-			verticalLayoutGroup.spacing = 0;
-			verticalLayoutGroup.childForceExpandHeight = false;
-			
 			_content = CreateContent();
 		}
 		
@@ -39,12 +48,14 @@ namespace FluentUI.Elements
 			var obj = new GameObject("Content", typeof(RectTransform));
 			obj.transform.SetParent(Transform);
 
-			var image = obj.AddComponent<UnityEngine.UI.Image>();
-			image.sprite = UIRoot.Skin.PanelSprite;
-			image.color = UIRoot.Skin.PanelColor;
+			_image = obj.AddComponent<UnityEngine.UI.Image>();
+			_image.sprite = UIRoot.Skin.PanelSprite;
+			_image.color = UIRoot.Skin.PanelColor;
 				
 			var layoutElement = obj.AddComponent<LayoutElement>();
 			layoutElement.flexibleHeight = 1;
+			
+			((RectTransform)obj.transform).FitToParent();
 
 			return obj;
 		}

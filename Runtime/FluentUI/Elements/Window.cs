@@ -31,8 +31,8 @@ namespace FluentUI.Elements
 
 		public Window Close()
 		{
-			_onClosed?.Invoke();
 			gameObject.SetActive(false);
+			_onClosed?.Invoke();
 			return this;
 		}
 

@@ -9,14 +9,115 @@ namespace FluentUI.Elements
 {
 	public abstract class Element : MonoBehaviour
 	{
+		public virtual Transform Content => transform;
+		
+		#region Elements
+		
+		public Empty Empty()
+		{
+			return Elements.Empty.Create(Content);
+		}
+		
+		public Window Window(string title)
+		{
+			return Elements.Window.Create(Content, title);
+		}
+		
+		public Button Button()
+		{
+			return Elements.Button.Create(Content);
+		}
+
+		public Label Label(string text)
+		{
+			return Elements.Label.Create(Content, text);
+		}
+		
+		public Label Label(UIBinding<string> text)
+		{
+			return Elements.Label.Create(Content, text);
+		}
+		
+		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
+		{
+			if (selection == null)
+				throw new NullReferenceException($"Binding is null.");
+			return Elements.Dropdown.Create(Content, label, selection, values);
+		}
+		
+		public Toggle Toggle(string label, UIBinding<bool> value)
+		{
+			if (value == null)
+				throw new NullReferenceException($"Binding is null.");
+			return Elements.Toggle.Create(Content, label, value);
+		}
+		
+		public Slider Slider(string label, UIBinding<float> value)
+		{
+			if (value == null)
+				throw new NullReferenceException($"Binding is null.");
+			return Elements.Slider.Create(Content, label, value);
+		}
+		
+		public VerticalGroup VerticalGroup(GroupForceExpand forceExpand = GroupForceExpand.Horizontal)
+		{
+			return Elements.VerticalGroup.Create(Content, forceExpand);
+		}
+		
+		public HorizontalGroup HorizontalGroup(GroupForceExpand forceExpand = GroupForceExpand.Vertical)
+		{
+			return Elements.HorizontalGroup.Create(Content, forceExpand);
+		}
+		
+		public Panel Panel()
+		{
+			return Elements.Panel.Create(Content);
+		}
+		
+		public Image Image(Sprite sprite)
+		{
+			return Elements.Image.Create(Content, sprite);
+		}
+		
+		public Image Image(UIBinding<Sprite> sprite)
+		{
+			if (sprite == null)
+				throw new NullReferenceException($"Binding is null.");
+			return Elements.Image.Create(Content, sprite);
+		}
+		
+		public Canvas OverlayCanvas(int sortingOrder)
+		{
+			return Canvas.CreateOverlay(Content, sortingOrder);
+		}
+
+		public Tabs Tabs()
+		{
+			return Elements.Tabs.Create(Content);
+		}
+
+		public Fold Fold(string label)
+		{
+			return Elements.Fold.Create(Content, label);
+		}
+		
+		public InputField InputField(string placeholder = "")
+		{
+			return Elements.InputField.Create(Content, placeholder);
+		}
+		
+		public GridGroup GridGroup()
+		{
+			return Elements.GridGroup.Create(Content);
+		}
+		
+		#endregion
 	}
 	
 	public abstract class Element<T> : Element where T : Element
 	{
 		private LayoutElement _layoutElement;
 		protected Transform Transform => transform;
-
-		public virtual Transform Content => transform;
 
 		protected RectTransform rectTransform => (RectTransform)transform;
 		
@@ -194,103 +295,6 @@ namespace FluentUI.Elements
 		
 		#endregion
 		
-		#region Elements
-		
-		public Empty Empty()
-		{
-			return Elements.Empty.Create(Content);
-		}
-		
-		public Window Window(string title)
-		{
-			return Elements.Window.Create(Content, title);
-		}
-		
-		public Button Button()
-		{
-			return Elements.Button.Create(Content);
-		}
-
-		public Label Label(string text)
-		{
-			return Elements.Label.Create(Content, text);
-		}
-		
-		public Label Label(UIBinding<string> text)
-		{
-			return Elements.Label.Create(Content, text);
-		}
-		
-		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
-		{
-			if (selection == null)
-				throw new NullReferenceException($"Binding is null.");
-			return Elements.Dropdown.Create(Content, label, selection, values);
-		}
-		
-		public Toggle Toggle(string label, UIBinding<bool> value)
-		{
-			if (value == null)
-				throw new NullReferenceException($"Binding is null.");
-			return Elements.Toggle.Create(Content, label, value);
-		}
-		
-		public Slider Slider(string label, UIBinding<float> value)
-		{
-			if (value == null)
-				throw new NullReferenceException($"Binding is null.");
-			return Elements.Slider.Create(Content, label, value);
-		}
-		
-		public VerticalGroup VerticalGroup(GroupForceExpand forceExpand = GroupForceExpand.Horizontal)
-		{
-			return Elements.VerticalGroup.Create(Content, forceExpand);
-		}
-		
-		public HorizontalGroup HorizontalGroup(GroupForceExpand forceExpand = GroupForceExpand.Vertical)
-		{
-			return Elements.HorizontalGroup.Create(Content, forceExpand);
-		}
-		
-		public Panel Panel()
-		{
-			return Elements.Panel.Create(Content);
-		}
-		
-		public Image Image(Sprite sprite)
-		{
-			return Elements.Image.Create(Content, sprite);
-		}
-		
-		public Image Image(UIBinding<Sprite> sprite)
-		{
-			if (sprite == null)
-				throw new NullReferenceException($"Binding is null.");
-			return Elements.Image.Create(Content, sprite);
-		}
-		
-		public Canvas OverlayCanvas(int sortingOrder)
-		{
-			return Canvas.CreateOverlay(Content, sortingOrder);
-		}
-
-		public Tabs Tabs()
-		{
-			return Elements.Tabs.Create(Content);
-		}
-
-		public Fold Fold(string label)
-		{
-			return Elements.Fold.Create(Content, label);
-		}
-		
-		public InputField InputField(string placeholder = "")
-		{
-			return Elements.InputField.Create(Content, placeholder);
-		}
-		
-		#endregion
-		
 		#region Utilities
 		
 		public Element<T> Children(params Action<Element<T>>[] actions)
@@ -328,7 +332,7 @@ namespace FluentUI.Elements
 
 		private void Clear()
 		{
-			for (var i = 0; i < transform.childCount; i++)
+			for (var i = transform.childCount - 1; i >= 0; --i)
 			{
 				DestroyImmediate(transform.GetChild(i).gameObject);
 			}

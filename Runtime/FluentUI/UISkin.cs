@@ -42,6 +42,11 @@ namespace FluentUI
 		[Header("Layout Groups")]
 		public RectOffset LayoutGroupPadding;
 		public float LayoutGroupSpacing;
+		
+		[Header("Grid Layout")]
+		public Vector2 GridLayoutGroupSpacing;
+		public RectOffset GridLayoutGroupPadding;
+		public Vector2 GridLayoutGroupCellSize;
 
 		[Header("Panel")]
 		public Sprite PanelSprite;
