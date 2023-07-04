@@ -34,10 +34,10 @@ namespace FluentUI.Elements
 			return this;
 		}
 
-		public override Slider PreferredHeight(int height)
+		public override Slider PreferredHeight(float height)
 		{
 			_handleImage.Size(height, 0, false);
-			_sliderPadding.Padding(height / 2, height / 2, 0, 0);
+			_sliderPadding.Padding(Mathf.FloorToInt(height / 2), Mathf.FloorToInt(height / 2), 0, 0);
 			return base.PreferredHeight(height);
 		}
 

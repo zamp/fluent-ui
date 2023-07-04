@@ -6,6 +6,9 @@ namespace FluentUI
 	[CreateAssetMenu(fileName = "Skin", menuName = "Fluent-UI/Create Skin")]
 	public class UISkin : ScriptableObject
 	{
+		[Header("General")]
+		public float DefaultSpacing = 5;
+		
 		[Header("Window")]
 		public Sprite WindowTitleBarSprite;
 		public float WindowTitleBarHeight = 20;
@@ -21,16 +24,16 @@ namespace FluentUI
 		public Vector2 WindowCloseButtonSize;
 		
 		[Header("Label")]
-		public int DefaultLabelHeight = 20;
+		public float DefaultLabelHeight = 20;
 		
 		[Header("InputField")]
-		public int DefaultInputFieldHeight = 20;
+		public float DefaultInputFieldHeight = 20;
 		public Sprite InputFieldSprite;
 
 		[Header("Button")]
 		public Sprite ButtonSprite;
 		public Color ButtonColor;
-		public int DefaultButtonHeight = 20;
+		public float DefaultButtonHeight = 20;
 		
 		[Header("Fonts")]
 		public TMP_FontAsset Font;
@@ -46,7 +49,7 @@ namespace FluentUI
 
 		[Header("Toggle")]
 		public Sprite ToggleCheckSprite;
-		public int DefaultToggleHeight = 20;
+		public float DefaultToggleHeight = 20;
 
 		[Header("Slider")]
 		public Sprite SliderFillSprite;
@@ -65,6 +68,6 @@ namespace FluentUI
 		public Sprite FoldOpenSprite;
 		
 		[Header("Dropdown")]
-		public int DefaultDropdownHeight = 20;
+		public float DefaultDropdownHeight = 20;
 	}
 }

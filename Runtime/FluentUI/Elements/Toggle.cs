@@ -19,7 +19,7 @@ namespace FluentUI.Elements
 			return this;
 		}
 
-		public override Toggle PreferredHeight(int height)
+		public override Toggle PreferredHeight(float height)
 		{
 			_button.PreferredHeight(height);
 			return base.PreferredHeight(height);

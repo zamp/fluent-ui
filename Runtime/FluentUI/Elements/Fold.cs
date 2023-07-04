@@ -15,7 +15,7 @@ namespace FluentUI.Elements
 
 		public override Transform Content => _contentGameObject.transform; 
 
-		public override Fold PreferredHeight(int height)
+		public override Fold PreferredHeight(float height)
 		{
 			_button.PreferredHeight(height);
 			return base.PreferredHeight(height);

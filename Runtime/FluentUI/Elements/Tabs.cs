@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,18 @@ namespace FluentUI.Elements
 		private GameObject _contentContainer;
 		
 		private ToggleGroup _toggleGroup;
+		
+		private event Action<Tab, bool> _tabChanged;
 
 		public override Transform Content => _contentContainer.transform;
 
 		public ToggleGroup ToggleGroup => _toggleGroup;
+
+		public Tabs OnTabChanged(Action<Tab, bool> tabChanged)
+		{
+			_tabChanged += tabChanged;
+			return this;
+		}
 
 		public static Tabs Create(Transform parent)
 		{
@@ -54,7 +63,14 @@ namespace FluentUI.Elements
 
 		public Tab Tab(string label)
 		{
-			return Elements.Tab.Create(_tabsContainer.transform, this, label);
+			var tab = Elements.Tab.Create(_tabsContainer.transform, this, label);
+			tab.OnValueChanged(value => RaiseTabChanged(tab, value));
+			return tab;
+		}
+
+		private void RaiseTabChanged(Tab tab, bool value)
+		{
+			_tabChanged?.Invoke(tab, value);
 		}
 	}
 }

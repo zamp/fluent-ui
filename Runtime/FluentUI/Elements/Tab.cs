@@ -1,3 +1,4 @@
+using System;
 using FluentUI.Extensions;
 using TMPro;
 using UnityEngine;
@@ -9,8 +10,16 @@ namespace FluentUI.Elements
 	{
 		private GameObject _contentGameObject;
 		private UnityEngine.UI.Image _backgroundImage;
+		
+		private event Action<bool> _onValueChanged;
 
 		public override Transform Content => _contentGameObject.transform;
+
+		public Tab OnValueChanged(Action<bool> onValueChanged)
+		{
+			_onValueChanged += onValueChanged;
+			return this;
+		}
 
 		public static Tab Create(Transform parent, Tabs tabs, string label)
 		{
@@ -55,6 +64,13 @@ namespace FluentUI.Elements
 			});
 			toggle.toggleTransition = UnityEngine.UI.Toggle.ToggleTransition.None;
 			toggle.transition = Selectable.Transition.None;
+
+			toggle.onValueChanged.AddListener(value => RaiseOnValueChanged(value));
+		}
+
+		private void RaiseOnValueChanged(bool value)
+		{
+			_onValueChanged?.Invoke(value);
 		}
 	}
 }

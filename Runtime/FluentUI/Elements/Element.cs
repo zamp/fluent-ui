@@ -73,7 +73,7 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public virtual T Size(int width, int height, bool updateLayoutElementPreferredSize = true)
+		public virtual T Size(float width, float height, bool updateLayoutElementPreferredSize = true)
 		{
 			return Size(new Vector2(width, height));
 		}
@@ -92,7 +92,7 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public virtual T PreferredWidth(int width)
+		public virtual T PreferredWidth(float width)
 		{
 			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
 			_layoutElement.preferredWidth = width;
@@ -100,7 +100,7 @@ namespace FluentUI.Elements
 			return this as T;
 		}
 		
-		public virtual T PreferredHeight(int height)
+		public virtual T PreferredHeight(float height)
 		{
 			_layoutElement = gameObject.GetOrAddComponent<LayoutElement>();
 			_layoutElement.preferredHeight = height;
@@ -293,15 +293,17 @@ namespace FluentUI.Elements
 		
 		#region Utilities
 		
-		public void Children(params Action<Element<T>>[] actions)
+		public Element<T> Children(params Action<Element<T>>[] actions)
 		{
 			foreach (var action in actions)
 			{
 				action?.Invoke(this);
 			}
+
+			return this;
 		}
 		
-		public void Children<TData>(UIBinding<IEnumerable<TData>> data, Action<T, TData> elementFactory)
+		public Element<T> Children<TData>(UIBinding<IEnumerable<TData>> data, Action<T, TData> elementFactory)
 		{
 			data.OnValueChanged += value =>
 			{
@@ -311,15 +313,17 @@ namespace FluentUI.Elements
 					elementFactory(this as T, elementData);
 				}
 			};
+			return this;
 		}
 		
-		public void Children<TData>(IEnumerable<TData> data, Action<T, TData> elementFactory)
+		public Element<T> Children<TData>(IEnumerable<TData> data, Action<T, TData> elementFactory)
 		{
 			Clear();
 			foreach (var elementData in data)
 			{
 				elementFactory(this as T, elementData);
 			}
+			return this;
 		}
 
 		private void Clear()

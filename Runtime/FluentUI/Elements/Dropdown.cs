@@ -17,13 +17,13 @@ namespace FluentUI.Elements
 
 		private event Action<int> _onSelectionChanged;
 
-		public override Dropdown Size(int width, int height, bool updateLayoutPreferredSize = true)
+		public override Dropdown Size(float width, float height, bool updateLayoutPreferredSize = true)
 		{
 			_valuesRectTransform.sizeDelta = new Vector2(0, height * _values.Length);
 			return base.Size(width, height, updateLayoutPreferredSize);
 		}
 
-		public override Dropdown PreferredHeight(int height)
+		public override Dropdown PreferredHeight(float height)
 		{
 			_valuesRectTransform.sizeDelta = new Vector2(0, height * _values.Length);
 			return base.PreferredHeight(height);
@@ -50,7 +50,7 @@ namespace FluentUI.Elements
 
 		private void CreateUnityComponents(string label, UIBinding<int> selection)
 		{
-			gameObject.AddComponent<RectTransform>();
+			gameObject.GetOrAddComponent<RectTransform>();
 			
 			Button buttonGameObject = null;
 			
