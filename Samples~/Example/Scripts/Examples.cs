@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using FluentUI;
 using FluentUI.Elements;
 using TMPro;
@@ -7,61 +9,68 @@ namespace FluentUIExamples
 {
 	public class Examples : MonoBehaviour
 	{
-		[SerializeField] private Sprite[] _imageSprites;
-		
-		private readonly UIBinding<string> _labelBinding = new();
+		private readonly UIBinding<string> _sliderLabel = new();
 		private readonly UIBinding<Sprite> _imageBinding = new();
 		private readonly UIBinding<int> _dropdownSelectionBinding = new();
-		private readonly UIBinding<bool> _toggleBinding = new();
-		private readonly UIBinding<float> _sliderBinding = new();
+		private readonly UIBinding<bool> _toggle = new();
+		private readonly UIBinding<float> _sliderValue = new();
+		private readonly UIBinding<IEnumerable<(string, Action)>> _dynamicContent = new();
 		
 		private Window _windowReference;
 
-		private float _imageTimer;
-		private int _imageSpriteIndex;
-
 		public void Start()
 		{
-			UIRoot.Canvas()
-				.ScreenSpaceOverlay()
-					.Children(
-						x => x.Panel()
-							.Size(new Vector2(400,200))
-							.Center()
-							.VerticalGroup()
-								.Children(
-									y => y.Label("This is a label"),
-									y => y.Button()
-										.PreferredHeight(20)
-										.OnClick(() => _windowReference.Open())
-										.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
-									y => y.Label(_labelBinding),
-									y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
-										.PreferredHeight(20)
-										.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
-									y => y.Toggle("Toggle", _toggleBinding)
-										.PreferredHeight(20),
-									y => y.Slider("Slider: ", _sliderBinding)
-										.PreferredHeight(20)
-								),
-						x => x.Window("Draggable window")
-							.Position(400,400)
-							.Size(200,100)
-							.Out(out _windowReference)
-							.VerticalGroup(GroupForceExpand.Both)
-								.FitToParent()	
-								.Image(_imageBinding)
-					);
+			UIRoot.Canvas().ScreenSpaceOverlay()
+				.Children(
+					x => x.Panel()
+						.Size(new Vector2(400,200))
+						.Center()
+						.VerticalGroup()
+							.Children(
+								y => y.Label("This is a label"),
+								y => y.Button()
+									.OnClick(() => _windowReference.Open())
+									.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
+								y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
+									.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
+								y => y.Toggle("Toggle", _toggle),
+								y => y.Label(_sliderLabel),
+								y => y.Slider("Slider: ", _sliderValue)
+									.Range(1,10)
+									.WholeNumbers(true)
+									.OnValueChanged(_ => UpdateDraggableWindowContents()) // callback value is ignored since value can be read from binding
+							),
+					x => x.Window("Draggable Window")
+						.Position(400,400)
+						.Size(200,200)
+						.Out(out _windowReference)
+						.VerticalGroup(GroupForceExpand.Both)
+							.Children(_dynamicContent, CreateDynamicContent)
+				);
+			
+			UpdateDraggableWindowContents();
 		}
 
-		private void Update()
+		private void CreateDynamicContent(VerticalGroup group, (string label, Action callback) item)
 		{
-			_labelBinding.Value = $"Label with binding: {Time.deltaTime}";
-			_imageTimer -= Time.deltaTime;
-			if (_imageTimer < 0)
+			group.Button()
+				.OnClick(item.callback)
+				.Label(item.label);
+		}
+
+		private void UpdateDraggableWindowContents()
+		{
+			_sliderLabel.Value = $"Slider value: {_sliderValue.Value}, Toggle: {(_toggle.Value ? "on" : "off")}";
+			var sliderValue = Mathf.FloorToInt(_sliderValue.Value);
+			_dynamicContent.Value = ExampleContents(sliderValue);
+		}
+
+		private IEnumerable<(string, Action)> ExampleContents(int sliderValue)
+		{
+			for (var i = 1; i <= sliderValue; ++i)
 			{
-				_imageTimer = 0.1f;
-				_imageBinding.Value = _imageSprites[_imageSpriteIndex++ % _imageSprites.Length];
+				var capture = i;
+				yield return (i.ToString(), () => Debug.Log($"Clicked {capture}"));
 			}
 		}
 	}
