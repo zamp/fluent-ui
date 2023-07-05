@@ -11,5 +11,10 @@ namespace FluentUI
 		{
 			_wrapper = new UIBindingWrapper<T>(binding, onValueChanged);
 		}
+
+		private void OnDestroy()
+		{
+			_wrapper.Dispose();
+		}
 	}
 }

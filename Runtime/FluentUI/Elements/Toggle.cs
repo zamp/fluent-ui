@@ -7,7 +7,7 @@ namespace FluentUI.Elements
 {
 	public class Toggle : Element<Toggle>
 	{
-		private UIBinding<bool> _value;
+		private UIBinding<bool> _valueBinding;
 		private Image _toggleCheckImage;
 		private Button _button;
 
@@ -33,7 +33,7 @@ namespace FluentUI.Elements
 			gameObject.transform.SetParent(parent, false);
 
 			var toggle = gameObject.AddComponent<Toggle>();
-			toggle._value = value;
+			toggle._valueBinding = value;
 			toggle.CreateUnityComponents(label);
 			return toggle;
 		}
@@ -59,17 +59,17 @@ namespace FluentUI.Elements
 			
 			PreferredHeight(UIRoot.Skin.DefaultToggleHeight);
 			
-			_toggleCheckImage.gameObject.SetActive(_value.Value);
+			_toggleCheckImage.gameObject.SetActive(_valueBinding.Value);
 			
 			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
-			valueUpdater.Initialize(_value, value => _toggleCheckImage.gameObject.SetActive(value));
+			valueUpdater.Initialize(_valueBinding, value => _toggleCheckImage.gameObject.SetActive(value));
 		}
 
 		private void ToggleValue()
 		{
-			_value.Value = !_value.Value;
-			_toggleCheckImage.gameObject.SetActive(_value.Value);
-			_onValueChanged?.Invoke(_value.Value);
+			_valueBinding.Value = !_valueBinding.Value;
+			_toggleCheckImage.gameObject.SetActive(_valueBinding.Value);
+			_onValueChanged?.Invoke(_valueBinding.Value);
 		}
 
 		#endregion

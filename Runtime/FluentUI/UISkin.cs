@@ -61,6 +61,7 @@ namespace FluentUI
 		public Color SliderFillColor;
 		public Sprite SliderHandleSprite;
 		public Color SliderHandleColor;
+		public float SliderDefaultHeight = 20;
 
 		[Header("Tabs")]
 		public float TabHeight;

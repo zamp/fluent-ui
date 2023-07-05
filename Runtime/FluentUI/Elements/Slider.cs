@@ -8,7 +8,7 @@ namespace FluentUI.Elements
 {
 	public class Slider : Element<Slider>
 	{
-		private UIBinding<float> _value;
+		private UIBinding<float> _valueBinding;
 		private UnityEngine.UI.Slider _slider;
 		private Image _handleImage;
 		private VerticalGroup _sliderPadding;
@@ -58,8 +58,8 @@ namespace FluentUI.Elements
 			Empty sliderEmpty = null;
 			Image fillImage = null;
 			
-			_value = value;
-			gameObject.AddComponent<RectTransform>();
+			_valueBinding = value;
+			gameObject.GetOrAddComponent<RectTransform>();
 
 			var half = Vector2.one / 2f;
 
@@ -91,17 +91,25 @@ namespace FluentUI.Elements
 
 			sliderGameObject.AddComponent<EmptyRaycastTarget>();
 
-			var slider = sliderGameObject.AddComponent<UnityEngine.UI.Slider>();
+			_slider = sliderGameObject.AddComponent<UnityEngine.UI.Slider>();
 
-			slider.fillRect = fillImage.gameObject.GetOrAddComponent<RectTransform>();
-			slider.handleRect = _handleImage.gameObject.GetOrAddComponent<RectTransform>();
+			_slider.fillRect = fillImage.gameObject.GetOrAddComponent<RectTransform>();
+			_slider.handleRect = _handleImage.gameObject.GetOrAddComponent<RectTransform>();
 			
 			FitToParent();
 			
 			var valueUpdater = sliderGameObject.AddComponent<UIBindingUpdater>();
-			valueUpdater.Initialize(_value, v => slider.SetValueWithoutNotify(v));
+			valueUpdater.Initialize(_valueBinding, v => _slider.SetValueWithoutNotify(v));
 
-			slider.onValueChanged.AddListener(v => _onValueChanged?.Invoke(v));
+			_slider.onValueChanged.AddListener(ChangeSliderValue);
+
+			PreferredHeight(UIRoot.Skin.SliderDefaultHeight);
+		}
+
+		private void ChangeSliderValue(float value)
+		{
+			_valueBinding.Value = value;
+			_onValueChanged?.Invoke(value);
 		}
 
 		#endregion

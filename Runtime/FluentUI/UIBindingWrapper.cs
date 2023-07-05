@@ -2,8 +2,9 @@ using System;
 
 namespace FluentUI
 {
-	public class UIBindingWrapper
+	public abstract class UIBindingWrapper
 	{
+		public abstract void Dispose();
 	}
 	
 	public class UIBindingWrapper<T> : UIBindingWrapper
@@ -23,6 +24,11 @@ namespace FluentUI
 		private void OnValueChanged(T value)
 		{
 			_onValueChanged?.Invoke(_binding.Value);
+		}
+		
+		public override void Dispose()
+		{
+			_binding.OnValueChanged -= OnValueChanged;
 		}
 	}
 }

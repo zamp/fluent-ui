@@ -292,6 +292,13 @@ namespace FluentUI.Elements
 			contentSizeFitter.verticalFit = verticalFit;
 			return this as T; 
 		}
+
+		public T Tooltip(string text)
+		{
+			var tooltip = gameObject.GetOrAddComponent<Tooltip>();
+			tooltip.Text = text;
+			return this as T;
+		}
 		
 		#endregion
 		
