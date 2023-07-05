@@ -34,6 +34,12 @@ namespace FluentUI.Elements
 			return this;
 		}
 
+		public Slider WholeNumbers(bool wholeNumbers)
+		{
+			_slider.wholeNumbers = wholeNumbers;
+			return this;
+		}
+
 		public override Slider PreferredHeight(float height)
 		{
 			_handleImage.Size(height, 0, false);
