@@ -316,14 +316,20 @@ namespace FluentUI.Elements
 		
 		public Element<T> Children<TData>(UIBinding<IEnumerable<TData>> data, Action<T, TData> elementFactory)
 		{
-			data.OnValueChanged += value =>
+			void Populate()
 			{
 				Clear();
 				foreach (var elementData in data.Value)
 				{
 					elementFactory(this as T, elementData);
 				}
-			};
+			}
+			
+			data.OnValueChanged += _ => Populate();
+			
+			if (data.Value != null)
+				Populate();
+			
 			return this;
 		}
 		
