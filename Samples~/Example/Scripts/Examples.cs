@@ -38,7 +38,7 @@ namespace FluentUIExamples
 								y => y.Slider("Slider: ", _sliderValue)
 									.Range(1,10)
 									.WholeNumbers(true)
-									.OnValueChanged(_ => UpdateDraggableWindowContents()) // callback value is ignored since value can be read from binding
+									.OnValueChanged(UpdateDraggableWindowContents)
 							),
 					x => x.Window("Draggable Window")
 						.Position(400,400)
@@ -58,9 +58,12 @@ namespace FluentUIExamples
 				.Label(item.label);
 		}
 
-		private void UpdateDraggableWindowContents()
+		private void UpdateDraggableWindowContents(float value)
 		{
+			// Callback value is ignored since value can be read from binding. I recommend not doing it like this and instead use the callback value. It's faster and less messy. This is only an example.
 			_sliderLabel.Value = $"Slider value: {_sliderValue.Value}, Toggle: {(_toggle.Value ? "on" : "off")}";
+			// Use this code instead if you want to use the callback value:
+			// _sliderLabel.Value = $"Slider value: {value}, Toggle: {(_toggle.Value ? "on" : "off")}";
 			var sliderValue = Mathf.FloorToInt(_sliderValue.Value);
 			_dynamicContent.Value = ExampleContents(sliderValue);
 		}
