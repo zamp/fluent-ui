@@ -45,13 +45,13 @@ namespace FluentUIExamples
 						.Size(200,200)
 						.Out(out _windowReference)
 						.VerticalGroup(GroupForceExpand.Both)
-							.Children(_dynamicContent, CreateDynamicContent)
+							.Children(_dynamicContent, DynamicContentFactory)
 				);
 			
 			UpdateDraggableWindowContents(_sliderValue.Value);
 		}
 
-		private void CreateDynamicContent(VerticalGroup group, (string label, Action callback) item)
+		private void DynamicContentFactory(VerticalGroup group, (string label, Action callback) item)
 		{
 			group.Button()
 				.OnClick(item.callback)
