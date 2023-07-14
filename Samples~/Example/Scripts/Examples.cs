@@ -48,7 +48,7 @@ namespace FluentUIExamples
 							.Children(_dynamicContent, CreateDynamicContent)
 				);
 			
-			UpdateDraggableWindowContents();
+			UpdateDraggableWindowContents(_sliderValue.Value);
 		}
 
 		private void CreateDynamicContent(VerticalGroup group, (string label, Action callback) item)
