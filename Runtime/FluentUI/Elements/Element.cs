@@ -333,6 +333,22 @@ namespace FluentUI.Elements
 			return this;
 		}
 		
+		public Element<T> Dynamic<TData>(UIBinding<TData> data, Action<T, TData> elementFactory)
+		{
+			void Populate()
+			{
+				Clear();
+				elementFactory(this as T, data.Value);
+			}
+			
+			data.OnValueChanged += _ => Populate();
+			
+			if (data.Value != null)
+				Populate();
+			
+			return this;
+		}
+		
 		public Element<T> Children<TData>(IEnumerable<TData> data, Action<T, TData> elementFactory)
 		{
 			Clear();
