@@ -14,6 +14,8 @@ namespace FluentUI.Elements
 		private Label _selectionText;
 		private RectTransform _valuesRectTransform;
 		private Canvas _overlayCanvas;
+		
+		private HorizontalGroup _horizontalGroup;
 
 		private event Action<int> _onSelectionChanged;
 
@@ -37,39 +39,43 @@ namespace FluentUI.Elements
 
 		#region Creation
 		
-		public static Dropdown Create(Transform parent, string label, UIBinding<int> selection, string[] values)
+		public static Dropdown Create(Transform parent, int selection, string[] values)
 		{
 			var gameObject = new GameObject($"{nameof(Dropdown)}", typeof(RectTransform));
 			gameObject.transform.SetParent(parent, false);
 
 			var dropdown = gameObject.AddComponent<Dropdown>();
 			dropdown._values = values;
-			dropdown.CreateUnityComponents(label, selection);
+			dropdown.CreateUnityComponents(null, selection);
+			return dropdown;
+		}
+		
+		public static Dropdown Create(Transform parent, UIBinding<int> selection, string[] values)
+		{
+			var gameObject = new GameObject($"{nameof(Dropdown)}", typeof(RectTransform));
+			gameObject.transform.SetParent(parent, false);
+
+			var dropdown = gameObject.AddComponent<Dropdown>();
+			dropdown._values = values;
+			dropdown.CreateUnityComponents(selection);
 			return dropdown;
 		}
 
-		private void CreateUnityComponents(string label, UIBinding<int> selection)
+		private void CreateUnityComponents(UIBinding<int> selection, int fallback = 0)
 		{
 			gameObject.GetOrAddComponent<RectTransform>();
-			
-			Button buttonGameObject = null;
-			
-			HorizontalGroup().
-				Padding(0,0,0,0).
-				Children(
-					x => x.Label(label)
-						.Align(TextAlignmentOptions.MidlineLeft),
-					x => x.Button()
-						.FlexibleWidth(1)
-						.Out(out buttonGameObject)
-						.OnClick(OpenSelection)
-						.Children(
-							y => y.Label(_values.ElementAtOrDefault(selection.Value))
-								.Align(TextAlignmentOptions.MidlineLeft)
-								.Out(out _selectionText),
-							y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).FitToParent()
-								.Out(out _overlayCanvas))
-					);
+
+			Button()
+				.FitToParent()
+				.FlexibleWidth(1)
+				.Out(out var buttonGameObject)
+				.OnClick(OpenSelection)
+				.Children(
+					y => y.Label(_values.ElementAtOrDefault(selection?.Value ?? fallback))
+						.Align(TextAlignmentOptions.MidlineLeft)
+						.Out(out _selectionText),
+					y => y.OverlayCanvas(UIRoot.OVERLAY_SORTING_ORDER).FitToParent()
+						.Out(out _overlayCanvas));
 			
 			var buttonRt = (RectTransform)buttonGameObject.transform;
 			var buttonSizeDelta = buttonRt.sizeDelta;
@@ -93,9 +99,13 @@ namespace FluentUI.Elements
 			{
 				var capture = i;
 
-				Button().SetParent(_valuesContainer.transform).OnClick(() =>
+				Button()
+					.SetParent(_valuesContainer.transform)
+					.FitToParent()
+					.OnClick(() =>
 					{
-						selection.Value = capture;
+						if (selection != null)
+							selection.Value = capture;
 						_valuesContainer.SetActive(false);
 						_selectionText.Text(_values[capture])
 							.Align(TextAlignmentOptions.MidlineLeft);
@@ -109,9 +119,12 @@ namespace FluentUI.Elements
 			PreferredHeight(UIRoot.Skin.DefaultDropdownHeight);
 
 			FitToParent();
-			
-			var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
-			valueUpdater.Initialize(selection, value => _selectionText.Text(_values[value]));
+
+			if (selection != null)
+			{
+				var valueUpdater = gameObject.AddComponent<UIBindingUpdater>();
+				valueUpdater.Initialize(selection, value => _selectionText.Text(_values[value]));
+			}
 		}
 
 		private void OpenSelection()

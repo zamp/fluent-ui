@@ -38,11 +38,16 @@ namespace FluentUI.Elements
 			return Elements.Label.Create(Content, text);
 		}
 		
-		public Dropdown Dropdown(string label, UIBinding<int> selection, string[] values)
+		public Dropdown Dropdown(UIBinding<int> selection, string[] values)
 		{
 			if (selection == null)
 				throw new NullReferenceException($"Binding is null.");
-			return Elements.Dropdown.Create(Content, label, selection, values);
+			return Elements.Dropdown.Create(Content, selection, values);
+		}
+		
+		public Dropdown Dropdown(int selection, string[] values)
+		{
+			return Elements.Dropdown.Create(Content, selection, values);
 		}
 		
 		public Toggle Toggle(string label, UIBinding<bool> value)

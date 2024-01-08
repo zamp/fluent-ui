@@ -31,8 +31,12 @@ namespace FluentUIExamples
 								y => y.Button()
 									.OnClick(() => _windowReference.Open())
 									.Label("Reopen draggable window").Align(TextAlignmentOptions.Center),
-								y => y.Dropdown("Dropdown:", _dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
-									.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}")),
+								y => y.HorizontalGroup()
+									.Children(
+										z => z.Label("Dropdown:"),
+										z => z.Dropdown(_dropdownSelectionBinding, new []{"First example", "Second example", "Third example"})
+											.OnSelectionChanged(i => Debug.Log($"Selection changed: {i}"))
+									),
 								y => y.Toggle("Toggle", _toggle),
 								y => y.Label(_sliderLabel),
 								y => y.Slider("Slider: ", _sliderValue)
