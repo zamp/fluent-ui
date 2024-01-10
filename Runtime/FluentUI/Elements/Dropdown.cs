@@ -117,6 +117,7 @@ namespace FluentUI.Elements
 			_valuesContainer.SetActive(false);
 
 			PreferredHeight(UIRoot.Skin.DefaultDropdownHeight);
+			PreferredWidth(UIRoot.Skin.DefaultDropdownWidth);
 
 			FitToParent();
 

@@ -75,5 +75,6 @@ namespace FluentUI
 		
 		[Header("Dropdown")]
 		public float DefaultDropdownHeight = 20;
+		public float DefaultDropdownWidth = 100;
 	}
 }
